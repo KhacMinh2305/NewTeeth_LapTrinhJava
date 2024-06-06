@@ -4,6 +4,17 @@
  */
 package mynewteeth.frontend;
 
+import java.awt.Color;
+import mynewteeth.backend.interfaces.ILogout;
+import mynewteeth.frontend.dashboard_sub_class.TabBacSi;
+import mynewteeth.frontend.dashboard_sub_class.TabBenhNhan;
+import mynewteeth.frontend.dashboard_sub_class.TabHoSoBenhNhan;
+import mynewteeth.frontend.dashboard_sub_class.TabHoaDon;
+import mynewteeth.frontend.dashboard_sub_class.TabLichHen;
+import mynewteeth.frontend.dashboard_sub_class.TabQuanLyNhapXuat;
+import mynewteeth.frontend.dashboard_sub_class.TabTaiKhoan;
+import mynewteeth.frontend.dashboard_sub_class.TabVatTu;
+
 /**
  *
  * @author Us
@@ -13,14 +24,91 @@ public class DashboardFrame extends javax.swing.JFrame {
     /**
      * Creates new form DashboardFrame
      */
+    private TabBenhNhan tabBenhNhan;
+    private TabHoSoBenhNhan tabHoSoBenhNhan;
+    private TabBacSi tabBacSi;
+    private TabHoaDon tabHoaDon;
+    private TabVatTu tabVatTu;
+    private TabQuanLyNhapXuat tabQuanLyNhapXuat;
+    private TabLichHen tabLichHen;
+    private TabTaiKhoan tabTaiKhoan;
+
     public DashboardFrame() {
         initComponents();
-        // pass handling event and logic for each tab here 
-        // we pass interface to each handling logic part by "set" injection . Alternativelly , we also have to pass widget like JTextField , button ,...
-        // to this handling logic class
-        System.out.println("Debug");
-        themBNButton.addActionListener((e) -> {
-            System.out.println("Thêm bệnh nhân !");
+        // my custom
+        initTabBenhNhan();
+        initHoSoBNTab();
+        initTabBacSi();
+        initTabHoaDon();
+        initTabVatTu();
+        initTabQuanLyNhapXuat();
+        initTabLichHen();
+        initTabTaiKhoan();
+    }
+
+    private void initTabBenhNhan() {
+        tabBenhNhan = new TabBenhNhan(benhNhanTable, maBNTextField, tenBNTextField,
+                ngaySinhBNTextField, dienThoaiBNTextField, queQuanBNTextField, gioiTinhBnTextField,
+                themBNButton, xoaBNButton, suaBNButton, timKiemButton, (Object updatedData) -> {
+                    tabHoSoBenhNhan.updateData(updatedData);
+                    tabHoaDon.updateData(updatedData);
+                    tabLichHen.updateData(updatedData);
+                });
+    }
+
+    private void initHoSoBNTab() {
+        tabHoSoBenhNhan = new TabHoSoBenhNhan(maBATextField, tenBATextField, trieuChungTextField, chanDoanTextField,
+                tenBacSiTextField, maBacSiTextField, ghiChuTextField, ngayTaiKhamTextField, thuocKeDonTable,
+                benhAnTable, timKiemBAButton, capNhatBAButton, xoaBAButton, themBAButton);
+    }
+
+    private void initTabBacSi() {
+        tabBacSi = new TabBacSi(bacSiTable, maBSTextField, tenBSTextField, ngaySinhBSTextField,
+                gioiTinhBSTextField, queQuanBSTextField, soDTTextField, chuyenMonTextField,
+                chucVuTextField, luongThangTextField, timKiemBtn, sapXepTenBtn, sapXepLuong,
+                themBacSiButton, capNhatBSButton, xoaBacSiButton, anhBacSiLabel, (Object updatedData) -> {
+                    tabHoSoBenhNhan.updateData(updatedData);
+                    tabLichHen.updateData(updatedData);
+                });
+    }
+
+    private void initTabHoaDon() {
+        tabHoaDon = new TabHoaDon(hoaDonTable, soHDTextField, ngayKhamHDTextField, khachHangHoaDonLabel,
+                maKHLabel, dichVuComboBox, dichVuTable, thuocHDComboBox, thuocHDTable, thanhTienLabel, themHDButton,
+                capNhatHDButton, xoaHDButton, timKiemHDButton, sapXepTenButton, sapXepTienButton);
+    }
+
+    private void initTabVatTu() {
+        tabVatTu = new TabVatTu(vatTuTable, vatTuTextField, tenVatTuTextField, loaiVatTuTextField, tinhTrangVatTuTextField,
+                giaNhapVatTuTextField, ngayNhapVatTuTextField, soLuongVatTuTextField, themVTButton, xoaVatTuButton, capNhatVatTuButton,
+                timKiemVatTuButton, (Object updatedData) -> {
+                    tabHoSoBenhNhan.updateData(updatedData);
+                    tabHoaDon.updateData(updatedData);
+                    tabQuanLyNhapXuat.updateData(updatedData);
+                });
+    }
+
+    private void initTabQuanLyNhapXuat() {
+        tabQuanLyNhapXuat = new TabQuanLyNhapXuat(nhapXuatTable, maDonTextField, ngayGDTextField, loaiGDTextField,
+                nhaCCTextField, tongTienTextField, vatPhamGDTable, themNhapXuatButton, xoaNhapXuatButton, suaNhapXuatButton);
+    }
+
+    private void initTabLichHen() {
+        tabLichHen = new TabLichHen(lichHenTable, maLichHenTextField, maBNHenTextField, tenBNHenTextField,
+                sdtHenTextField, ngayHenTextField, tenBSHenTextField, maBSHenTetxField, dichVuHenComboBox,
+                dichVuHenTable, ghiChuHenTextField, themLichHenButton, xoaLichHenButton, capNhatLichHenButton, timKiemLichHenButton);
+    }
+
+    private void initTabTaiKhoan() {
+        tabTaiKhoan = new TabTaiKhoan(taiKhoanTable, tiaKhoanTextField, matKhauTextField, ngayTaoTextField,
+                doiMKButton, chanTKButton, xoaTKButton, dangXuatButton, () -> {
+                    LoginFrame loginFrame = new LoginFrame();
+                    loginFrame.setTitle("Login");
+                    loginFrame.getContentPane().setBackground(Color.WHITE);
+                    loginFrame.setResizable(false);
+                    loginFrame.setLocationRelativeTo(null);
+                    loginFrame.setVisible(true);
+                    DashboardFrame.this.dispose();
         });
     }
 
@@ -103,7 +191,7 @@ public class DashboardFrame extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
+        anhBacSiLabel = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         jLabel34 = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
@@ -118,12 +206,12 @@ public class DashboardFrame extends javax.swing.JFrame {
         gioiTinhBSTextField = new javax.swing.JTextField();
         queQuanBSTextField = new javax.swing.JTextField();
         soDTTextField = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        chuyenMonTextField = new javax.swing.JTextField();
+        chucVuTextField = new javax.swing.JTextField();
+        luongThangTextField = new javax.swing.JTextField();
+        themBacSiButton = new javax.swing.JButton();
+        xoaBacSiButton = new javax.swing.JButton();
+        capNhatBSButton = new javax.swing.JButton();
         timKiemBtn = new javax.swing.JButton();
         sapXepLuong = new javax.swing.JButton();
         sapXepTenBtn = new javax.swing.JButton();
@@ -153,10 +241,10 @@ public class DashboardFrame extends javax.swing.JFrame {
         jLabel57 = new javax.swing.JLabel();
         soHDTextField = new javax.swing.JTextField();
         ngayKhamHDTextField = new javax.swing.JTextField();
-        capNhatHDLabel = new javax.swing.JButton();
+        capNhatHDButton = new javax.swing.JButton();
         themHDButton = new javax.swing.JButton();
-        xoaHDLabel = new javax.swing.JButton();
-        timKiemHDLabel = new javax.swing.JButton();
+        xoaHDButton = new javax.swing.JButton();
+        timKiemHDButton = new javax.swing.JButton();
         sapXepTenButton = new javax.swing.JButton();
         sapXepTienButton = new javax.swing.JButton();
         quanLyVatTu = new javax.swing.JPanel();
@@ -248,6 +336,7 @@ public class DashboardFrame extends javax.swing.JFrame {
         xoaTKButton = new javax.swing.JButton();
         doiMKButton = new javax.swing.JButton();
         chanTKButton = new javax.swing.JButton();
+        dangXuatButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 51, 102));
@@ -314,18 +403,6 @@ public class DashboardFrame extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Mã bệnh nhân :");
 
-        maBNTextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                maBNTextFieldMouseClicked(evt);
-            }
-        });
-
-        tenBNTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tenBNTextFieldActionPerformed(evt);
-            }
-        });
-
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Tên bệnh nhân :");
@@ -334,21 +411,9 @@ public class DashboardFrame extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Ngày sinh :");
 
-        ngaySinhBNTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ngaySinhBNTextFieldActionPerformed(evt);
-            }
-        });
-
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Điện thoại");
-
-        dienThoaiBNTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dienThoaiBNTextFieldActionPerformed(evt);
-            }
-        });
 
         xoaBNButton.setBackground(new java.awt.Color(153, 204, 255));
         xoaBNButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -548,18 +613,8 @@ public class DashboardFrame extends javax.swing.JFrame {
         jLabel19.setText("Ngày tái khám : ");
 
         tenBATextField.setBackground(new java.awt.Color(227, 238, 245));
-        tenBATextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tenBATextFieldActionPerformed(evt);
-            }
-        });
 
         trieuChungTextField.setBackground(new java.awt.Color(227, 238, 245));
-        trieuChungTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                trieuChungTextFieldActionPerformed(evt);
-            }
-        });
 
         maBNLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         maBNLabel.setForeground(new java.awt.Color(0, 0, 0));
@@ -582,39 +637,14 @@ public class DashboardFrame extends javax.swing.JFrame {
         dienThoaiBNLabel.setText("0123456JQK");
 
         maBATextField.setBackground(new java.awt.Color(227, 238, 245));
-        maBATextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                maBATextFieldActionPerformed(evt);
-            }
-        });
 
         chanDoanTextField.setBackground(new java.awt.Color(227, 238, 245));
-        chanDoanTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chanDoanTextFieldActionPerformed(evt);
-            }
-        });
 
         tenBacSiTextField.setBackground(new java.awt.Color(227, 238, 245));
-        tenBacSiTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tenBacSiTextFieldActionPerformed(evt);
-            }
-        });
 
         ghiChuTextField.setBackground(new java.awt.Color(227, 238, 245));
-        ghiChuTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ghiChuTextFieldActionPerformed(evt);
-            }
-        });
 
         ngayTaiKhamTextField.setBackground(new java.awt.Color(227, 238, 245));
-        ngayTaiKhamTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ngayTaiKhamTextFieldActionPerformed(evt);
-            }
-        });
 
         thuocKeDonTable.setBackground(new java.awt.Color(231, 237, 243));
         thuocKeDonTable.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
@@ -664,11 +694,6 @@ public class DashboardFrame extends javax.swing.JFrame {
         jLabel41.setText("Mã bác sĩ :");
 
         maBacSiTextField.setBackground(new java.awt.Color(227, 238, 245));
-        maBacSiTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                maBacSiTextFieldActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -791,44 +816,24 @@ public class DashboardFrame extends javax.swing.JFrame {
         xoaBAButton.setForeground(new java.awt.Color(0, 51, 102));
         xoaBAButton.setText("Xóa bệnh án");
         xoaBAButton.setBorder(javax.swing.BorderFactory.createMatteBorder(3, 3, 3, 3, new java.awt.Color(102, 204, 255)));
-        xoaBAButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                xoaBAButtonActionPerformed(evt);
-            }
-        });
 
         timKiemBAButton.setBackground(new java.awt.Color(204, 204, 255));
         timKiemBAButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         timKiemBAButton.setForeground(new java.awt.Color(0, 51, 102));
         timKiemBAButton.setText("Tìm kiếm bệnh án ");
         timKiemBAButton.setBorder(javax.swing.BorderFactory.createMatteBorder(3, 3, 3, 3, new java.awt.Color(51, 204, 255)));
-        timKiemBAButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                timKiemBAButtonActionPerformed(evt);
-            }
-        });
 
         capNhatBAButton.setBackground(new java.awt.Color(204, 204, 255));
         capNhatBAButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         capNhatBAButton.setForeground(new java.awt.Color(0, 51, 102));
         capNhatBAButton.setText("Cập nhật bệnh án");
         capNhatBAButton.setBorder(javax.swing.BorderFactory.createMatteBorder(3, 3, 3, 3, new java.awt.Color(102, 204, 255)));
-        capNhatBAButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                capNhatBAButtonActionPerformed(evt);
-            }
-        });
 
         themBAButton.setBackground(new java.awt.Color(204, 204, 255));
         themBAButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         themBAButton.setForeground(new java.awt.Color(0, 51, 102));
         themBAButton.setText("Thêm bệnh án");
         themBAButton.setBorder(javax.swing.BorderFactory.createMatteBorder(3, 3, 3, 3, new java.awt.Color(102, 204, 255)));
-        themBAButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                themBAButtonActionPerformed(evt);
-            }
-        });
 
         benhAnTable.setBackground(new java.awt.Color(204, 204, 204));
         benhAnTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -974,11 +979,10 @@ public class DashboardFrame extends javax.swing.JFrame {
         jLabel28.setForeground(new java.awt.Color(255, 255, 255));
         jLabel28.setText("Mã bác sĩ : ");
 
-        jLabel29.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel29.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel29.setText("Hiển thị ảnh");
-        jLabel29.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(255, 255, 255)));
+        anhBacSiLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        anhBacSiLabel.setForeground(new java.awt.Color(255, 255, 255));
+        anhBacSiLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        anhBacSiLabel.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(255, 255, 255)));
 
         jLabel32.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel32.setForeground(new java.awt.Color(255, 255, 255));
@@ -1014,11 +1018,6 @@ public class DashboardFrame extends javax.swing.JFrame {
 
         tenBSTextField.setBackground(new java.awt.Color(237, 242, 248));
         tenBSTextField.setForeground(new java.awt.Color(0, 0, 0));
-        tenBSTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tenBSTextFieldActionPerformed(evt);
-            }
-        });
 
         maBSTextField.setBackground(new java.awt.Color(237, 242, 248));
         maBSTextField.setForeground(new java.awt.Color(0, 0, 0));
@@ -1035,52 +1034,32 @@ public class DashboardFrame extends javax.swing.JFrame {
         soDTTextField.setBackground(new java.awt.Color(237, 242, 248));
         soDTTextField.setForeground(new java.awt.Color(0, 0, 0));
 
-        jTextField7.setBackground(new java.awt.Color(237, 242, 248));
-        jTextField7.setForeground(new java.awt.Color(0, 0, 0));
+        chuyenMonTextField.setBackground(new java.awt.Color(237, 242, 248));
+        chuyenMonTextField.setForeground(new java.awt.Color(0, 0, 0));
 
-        jTextField8.setBackground(new java.awt.Color(237, 242, 248));
-        jTextField8.setForeground(new java.awt.Color(0, 0, 0));
+        chucVuTextField.setBackground(new java.awt.Color(237, 242, 248));
+        chucVuTextField.setForeground(new java.awt.Color(0, 0, 0));
 
-        jTextField9.setBackground(new java.awt.Color(237, 242, 248));
-        jTextField9.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField9ActionPerformed(evt);
-            }
-        });
+        luongThangTextField.setBackground(new java.awt.Color(237, 242, 248));
+        luongThangTextField.setForeground(new java.awt.Color(0, 0, 0));
 
-        jButton5.setBackground(new java.awt.Color(0, 0, 0));
-        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("Thêm bác sĩ");
-        jButton5.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(255, 255, 255)));
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
+        themBacSiButton.setBackground(new java.awt.Color(0, 0, 0));
+        themBacSiButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        themBacSiButton.setForeground(new java.awt.Color(255, 255, 255));
+        themBacSiButton.setText("Thêm bác sĩ");
+        themBacSiButton.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(255, 255, 255)));
 
-        jButton6.setBackground(new java.awt.Color(0, 0, 0));
-        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Xóa bác sĩ này");
-        jButton6.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(255, 255, 255)));
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
+        xoaBacSiButton.setBackground(new java.awt.Color(0, 0, 0));
+        xoaBacSiButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        xoaBacSiButton.setForeground(new java.awt.Color(255, 255, 255));
+        xoaBacSiButton.setText("Xóa bác sĩ này");
+        xoaBacSiButton.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(255, 255, 255)));
 
-        jButton7.setBackground(new java.awt.Color(0, 0, 0));
-        jButton7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("Cập nhật bác sĩ");
-        jButton7.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(255, 255, 255)));
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
+        capNhatBSButton.setBackground(new java.awt.Color(0, 0, 0));
+        capNhatBSButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        capNhatBSButton.setForeground(new java.awt.Color(255, 255, 255));
+        capNhatBSButton.setText("Cập nhật bác sĩ");
+        capNhatBSButton.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(255, 255, 255)));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -1119,17 +1098,17 @@ public class DashboardFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jTextField8, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                                        .addComponent(jTextField7, javax.swing.GroupLayout.Alignment.TRAILING))
+                                        .addComponent(chucVuTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(luongThangTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                                        .addComponent(chuyenMonTextField, javax.swing.GroupLayout.Alignment.TRAILING))
                                     .addGroup(jPanel4Layout.createSequentialGroup()
                                         .addGap(9, 9, 9)
                                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
+                                            .addComponent(capNhatBSButton, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(themBacSiButton, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(xoaBacSiButton, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(anhBacSiLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -1137,7 +1116,7 @@ public class DashboardFrame extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(anhBacSiLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel27)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1167,21 +1146,21 @@ public class DashboardFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel38)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(chuyenMonTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel39)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(chucVuTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel40)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(luongThangTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(themBacSiButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(capNhatBSButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(xoaBacSiButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
@@ -1439,44 +1418,34 @@ public class DashboardFrame extends javax.swing.JFrame {
         soHDTextField.setBackground(new java.awt.Color(221, 229, 235));
         soHDTextField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         soHDTextField.setForeground(new java.awt.Color(0, 0, 0));
-        soHDTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                soHDTextFieldActionPerformed(evt);
-            }
-        });
 
         ngayKhamHDTextField.setBackground(new java.awt.Color(221, 229, 235));
         ngayKhamHDTextField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         ngayKhamHDTextField.setForeground(new java.awt.Color(0, 0, 0));
 
-        capNhatHDLabel.setBackground(new java.awt.Color(0, 0, 0));
-        capNhatHDLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        capNhatHDLabel.setForeground(new java.awt.Color(255, 255, 255));
-        capNhatHDLabel.setText("Cập nhật HĐ");
-        capNhatHDLabel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        capNhatHDButton.setBackground(new java.awt.Color(0, 0, 0));
+        capNhatHDButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        capNhatHDButton.setForeground(new java.awt.Color(255, 255, 255));
+        capNhatHDButton.setText("Cập nhật HĐ");
+        capNhatHDButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
 
         themHDButton.setBackground(new java.awt.Color(0, 0, 0));
         themHDButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         themHDButton.setForeground(new java.awt.Color(255, 255, 255));
         themHDButton.setText("Thêm hóa đơn");
         themHDButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
-        themHDButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                themHDButtonActionPerformed(evt);
-            }
-        });
 
-        xoaHDLabel.setBackground(new java.awt.Color(0, 0, 0));
-        xoaHDLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        xoaHDLabel.setForeground(new java.awt.Color(255, 255, 255));
-        xoaHDLabel.setText("Xóa hóa đơn");
-        xoaHDLabel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        xoaHDButton.setBackground(new java.awt.Color(0, 0, 0));
+        xoaHDButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        xoaHDButton.setForeground(new java.awt.Color(255, 255, 255));
+        xoaHDButton.setText("Xóa hóa đơn");
+        xoaHDButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
 
-        timKiemHDLabel.setBackground(new java.awt.Color(0, 0, 0));
-        timKiemHDLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        timKiemHDLabel.setForeground(new java.awt.Color(255, 255, 255));
-        timKiemHDLabel.setText("Tìm kiếm HĐ");
-        timKiemHDLabel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        timKiemHDButton.setBackground(new java.awt.Color(0, 0, 0));
+        timKiemHDButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        timKiemHDButton.setForeground(new java.awt.Color(255, 255, 255));
+        timKiemHDButton.setText("Tìm kiếm HĐ");
+        timKiemHDButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -1521,7 +1490,7 @@ public class DashboardFrame extends javax.swing.JFrame {
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGap(39, 39, 39)
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(xoaHDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(xoaHDButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(themHDButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1531,8 +1500,8 @@ public class DashboardFrame extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                                 .addGap(0, 41, Short.MAX_VALUE)
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(timKiemHDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(capNhatHDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(timKiemHDButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(capNhatHDButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(40, 40, 40)))))
                 .addContainerGap())
         );
@@ -1573,12 +1542,12 @@ public class DashboardFrame extends javax.swing.JFrame {
                     .addComponent(jLabel57))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(capNhatHDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(capNhatHDButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(themHDButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(xoaHDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(timKiemHDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(xoaHDButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(timKiemHDButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 24, Short.MAX_VALUE))
         );
 
@@ -1587,22 +1556,12 @@ public class DashboardFrame extends javax.swing.JFrame {
         sapXepTenButton.setForeground(new java.awt.Color(0, 0, 0));
         sapXepTenButton.setText("Sắp xếp tên");
         sapXepTenButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(221, 229, 235), 2));
-        sapXepTenButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sapXepTenButtonActionPerformed(evt);
-            }
-        });
 
         sapXepTienButton.setBackground(new java.awt.Color(153, 204, 255));
         sapXepTienButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         sapXepTienButton.setForeground(new java.awt.Color(0, 0, 0));
         sapXepTienButton.setText("Sắp xếp tiền");
         sapXepTienButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(221, 229, 235), 2));
-        sapXepTienButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sapXepTienButtonActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -1914,7 +1873,7 @@ public class DashboardFrame extends javax.swing.JFrame {
         jScrollPane9.setViewportView(nhapXuatTable);
         nhapXuatTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        jPanel7.setBackground(new java.awt.Color(153, 153, 255));
+        jPanel7.setBackground(new java.awt.Color(204, 204, 255));
 
         vatPhamGDTable.setAutoCreateRowSorter(true);
         vatPhamGDTable.setBackground(new java.awt.Color(0, 51, 102));
@@ -1951,11 +1910,11 @@ public class DashboardFrame extends javax.swing.JFrame {
         }
 
         jLabel75.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel75.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel75.setForeground(new java.awt.Color(0, 0, 0));
         jLabel75.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel75.setText("Chi tiết thông tin giao dịch");
 
-        jPanel16.setBackground(new java.awt.Color(153, 153, 255));
+        jPanel16.setBackground(new java.awt.Color(204, 204, 255));
         jPanel16.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 102), 5, true));
 
         jLabel64.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -2054,33 +2013,18 @@ public class DashboardFrame extends javax.swing.JFrame {
         suaNhapXuatButton.setForeground(new java.awt.Color(204, 204, 204));
         suaNhapXuatButton.setText("Cập nhật");
         suaNhapXuatButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 2, true));
-        suaNhapXuatButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                suaNhapXuatButtonActionPerformed(evt);
-            }
-        });
 
         themNhapXuatButton.setBackground(new java.awt.Color(0, 51, 102));
         themNhapXuatButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         themNhapXuatButton.setForeground(new java.awt.Color(204, 204, 204));
         themNhapXuatButton.setText("Thêm");
         themNhapXuatButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 2, true));
-        themNhapXuatButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                themNhapXuatButtonActionPerformed(evt);
-            }
-        });
 
         xoaNhapXuatButton.setBackground(new java.awt.Color(0, 51, 102));
         xoaNhapXuatButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         xoaNhapXuatButton.setForeground(new java.awt.Color(204, 204, 204));
         xoaNhapXuatButton.setText("Xóa");
         xoaNhapXuatButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 2, true));
-        xoaNhapXuatButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                xoaNhapXuatButtonActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -2543,11 +2487,6 @@ public class DashboardFrame extends javax.swing.JFrame {
         doiMKButton.setForeground(new java.awt.Color(255, 255, 255));
         doiMKButton.setText("Đổi mật khẩu");
         doiMKButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 3, true));
-        doiMKButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                doiMKButtonActionPerformed(evt);
-            }
-        });
 
         chanTKButton.setBackground(new java.awt.Color(0, 51, 102));
         chanTKButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -2555,25 +2494,36 @@ public class DashboardFrame extends javax.swing.JFrame {
         chanTKButton.setText("Chặn truy cập");
         chanTKButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 3, true));
 
+        dangXuatButton.setBackground(new java.awt.Color(0, 51, 102));
+        dangXuatButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        dangXuatButton.setForeground(new java.awt.Color(255, 255, 255));
+        dangXuatButton.setText("Đăng xuất");
+        dangXuatButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 3, true));
+
         javax.swing.GroupLayout taiKhoanPaneLayout = new javax.swing.GroupLayout(taiKhoanPane);
         taiKhoanPane.setLayout(taiKhoanPaneLayout);
         taiKhoanPaneLayout.setHorizontalGroup(
             taiKhoanPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel42, javax.swing.GroupLayout.PREFERRED_SIZE, 961, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(taiKhoanPaneLayout.createSequentialGroup()
+                .addComponent(jLabel42, javax.swing.GroupLayout.PREFERRED_SIZE, 961, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(taiKhoanPaneLayout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57)
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60)
                 .addGroup(taiKhoanPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(tiaKhoanTextField)
-                    .addComponent(matKhauTextField)
-                    .addComponent(ngayTaoTextField)
-                    .addComponent(doiMKButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(chanTKButton, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
-                    .addComponent(xoaTKButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel76, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel77, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel78, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(dangXuatButton, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+                    .addGroup(taiKhoanPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(tiaKhoanTextField)
+                        .addComponent(matKhauTextField)
+                        .addComponent(ngayTaoTextField)
+                        .addComponent(doiMKButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(chanTKButton, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+                        .addComponent(xoaTKButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel76, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel77, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel78, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         taiKhoanPaneLayout.setVerticalGroup(
             taiKhoanPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2599,7 +2549,10 @@ public class DashboardFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(chanTKButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(xoaTKButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(xoaTKButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dangXuatButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         dashboardTabPane.addTab("Tài khoản", taiKhoanPane);
@@ -2622,174 +2575,27 @@ public class DashboardFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void xoaNhapXuatButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoaNhapXuatButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_xoaNhapXuatButtonActionPerformed
-
-    private void themNhapXuatButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themNhapXuatButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_themNhapXuatButtonActionPerformed
-
-    private void suaNhapXuatButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_suaNhapXuatButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_suaNhapXuatButtonActionPerformed
-
-    private void sapXepTienButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sapXepTienButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sapXepTienButtonActionPerformed
-
-    private void sapXepTenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sapXepTenButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sapXepTenButtonActionPerformed
-
-    private void themHDButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themHDButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_themHDButtonActionPerformed
-
-    private void soHDTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_soHDTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_soHDTextFieldActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField9ActionPerformed
-
-    private void tenBSTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tenBSTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tenBSTextFieldActionPerformed
-
-    private void themBAButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themBAButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_themBAButtonActionPerformed
-
-    private void capNhatBAButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capNhatBAButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_capNhatBAButtonActionPerformed
-
-    private void timKiemBAButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timKiemBAButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_timKiemBAButtonActionPerformed
-
-    private void xoaBAButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoaBAButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_xoaBAButtonActionPerformed
-
-    private void maBacSiTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maBacSiTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_maBacSiTextFieldActionPerformed
-
-    private void ngayTaiKhamTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ngayTaiKhamTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ngayTaiKhamTextFieldActionPerformed
-
-    private void ghiChuTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ghiChuTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ghiChuTextFieldActionPerformed
-
-    private void tenBacSiTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tenBacSiTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tenBacSiTextFieldActionPerformed
-
-    private void chanDoanTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chanDoanTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chanDoanTextFieldActionPerformed
-
-    private void maBATextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maBATextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_maBATextFieldActionPerformed
-
-    private void trieuChungTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trieuChungTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_trieuChungTextFieldActionPerformed
-
-    private void tenBATextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tenBATextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tenBATextFieldActionPerformed
-
-    private void dienThoaiBNTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dienThoaiBNTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dienThoaiBNTextFieldActionPerformed
-
-    private void ngaySinhBNTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ngaySinhBNTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ngaySinhBNTextFieldActionPerformed
-
-    private void tenBNTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tenBNTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tenBNTextFieldActionPerformed
-
-    private void maBNTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_maBNTextFieldMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_maBNTextFieldMouseClicked
-
-    private void doiMKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doiMKButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_doiMKButtonActionPerformed
-
-    
     public javax.swing.JTabbedPane getTabbedPane() {
         return dashboardTabPane;
     }
-    
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(DashboardFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(DashboardFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(DashboardFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(DashboardFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new DashboardFrame().setVisible(true);
-//            }
-//        });
-//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel anhBacSiLabel;
     private javax.swing.JPanel bacSiTabPanel;
     private javax.swing.JTable bacSiTable;
     private javax.swing.JTable benhAnTable;
     private javax.swing.JPanel benhNhanPanel;
     private javax.swing.JTable benhNhanTable;
     private javax.swing.JButton capNhatBAButton;
-    private javax.swing.JButton capNhatHDLabel;
+    private javax.swing.JButton capNhatBSButton;
+    private javax.swing.JButton capNhatHDButton;
     private javax.swing.JButton capNhatLichHenButton;
     private javax.swing.JButton capNhatVatTuButton;
     private javax.swing.JTextField chanDoanTextField;
     private javax.swing.JButton chanTKButton;
+    private javax.swing.JTextField chucVuTextField;
+    private javax.swing.JTextField chuyenMonTextField;
+    private javax.swing.JButton dangXuatButton;
     private javax.swing.JTabbedPane dashboardTabPane;
     private javax.swing.JComboBox<String> dichVuComboBox;
     private javax.swing.JComboBox<String> dichVuHenComboBox;
@@ -2807,9 +2613,6 @@ public class DashboardFrame extends javax.swing.JFrame {
     private javax.swing.JPanel hoSoBNPanel;
     private javax.swing.JPanel hoaDonTabPane;
     private javax.swing.JTable hoaDonTable;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2827,7 +2630,6 @@ public class DashboardFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
@@ -2909,14 +2711,12 @@ public class DashboardFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JLabel khachHangHoaDonLabel;
     private javax.swing.JPanel lichHenPane;
     private javax.swing.JTable lichHenTable;
     private javax.swing.JTextField loaiGDTextField;
     private javax.swing.JTextField loaiVatTuTextField;
+    private javax.swing.JTextField luongThangTextField;
     private javax.swing.JTextField maBATextField;
     private javax.swing.JTextField maBNHenTextField;
     private javax.swing.JLabel maBNLabel;
@@ -2967,6 +2767,7 @@ public class DashboardFrame extends javax.swing.JFrame {
     private javax.swing.JPanel thaoTacPanel;
     private javax.swing.JButton themBAButton;
     private javax.swing.JButton themBNButton;
+    private javax.swing.JButton themBacSiButton;
     private javax.swing.JButton themHDButton;
     private javax.swing.JButton themLichHenButton;
     private javax.swing.JButton themNhapXuatButton;
@@ -2978,7 +2779,7 @@ public class DashboardFrame extends javax.swing.JFrame {
     private javax.swing.JButton timKiemBAButton;
     private javax.swing.JButton timKiemBtn;
     private javax.swing.JButton timKiemButton;
-    private javax.swing.JButton timKiemHDLabel;
+    private javax.swing.JButton timKiemHDButton;
     private javax.swing.JButton timKiemLichHenButton;
     private javax.swing.JButton timKiemVatTuButton;
     private javax.swing.JTextField tinhTrangVatTuTextField;
@@ -2989,7 +2790,8 @@ public class DashboardFrame extends javax.swing.JFrame {
     private javax.swing.JTextField vatTuTextField;
     private javax.swing.JButton xoaBAButton;
     private javax.swing.JButton xoaBNButton;
-    private javax.swing.JButton xoaHDLabel;
+    private javax.swing.JButton xoaBacSiButton;
+    private javax.swing.JButton xoaHDButton;
     private javax.swing.JButton xoaLichHenButton;
     private javax.swing.JButton xoaNhapXuatButton;
     private javax.swing.JButton xoaTKButton;

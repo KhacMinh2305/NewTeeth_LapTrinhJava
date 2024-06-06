@@ -6,8 +6,18 @@ package mynewteeth.frontend;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.swing.JTabbedPane;
 
 /**
  *
@@ -20,16 +30,112 @@ public class LoginFrame extends javax.swing.JFrame {
      */
     public LoginFrame() {
         initComponents();
-        myCustomInit();
+        loadAccount();
+        myUiInit();
+        initFrameBehavior();
     }
-    
-    private void myCustomInit() {
+
+    private void myUiInit() {
         // login image
         ImageIcon bannerImgIcon = new ImageIcon("src/mynewteeth/backend/data_repository/assets/app_images/anh_rang.PNG");
         avatar_image_label.setIcon(new ImageIcon(bannerImgIcon.getImage().getScaledInstance(430, 480, Image.SCALE_SMOOTH)));
         // app logo
         ImageIcon logoImgIcon = new ImageIcon("src/mynewteeth/backend/data_repository/assets/app_images/new_teeth_logo.PNG");
         logo_image_label.setIcon(new ImageIcon(logoImgIcon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH)));
+    }
+
+    private static final String ACCOUNT_FILE_URI = "src/mynewteeth/backend/data_repository/local_data/raw_data/taikhoan.txt";
+    private static final String APP_CONFIG_URI = "src/mynewteeth/backend/configs/appconfig.txt";
+    private FileInputStream fileInputStream = null;
+    private BufferedReader bufferedReader = null;
+    private final List<String[]> accounts = new ArrayList<>();
+
+    private void loadAccount() {
+        new Thread(() -> {
+            try {
+                fileInputStream = new FileInputStream(ACCOUNT_FILE_URI);
+                bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    accounts.add(line.split("#"));
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    fileInputStream.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                try {
+                    bufferedReader.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }).start();
+    }
+
+    private void initFrameBehavior() {
+        dangNhapButton.addActionListener((e) -> {
+            String account = taiKhoanTextField.getText(), password = String.valueOf(matKhauPassText.getPassword());
+            if (account.equals("") || password.equals("")) {
+                DialogProvider.showMessageDialog("Tài khoản và Mật khẩu không được trống !", ACCOUNT_FILE_URI);
+                return;
+            }
+            for (String[] acc : accounts) {
+                if (acc[0].equals(account)) {
+                    if (acc[1].equals(password)) {
+                        if (Integer.parseInt(acc[3]) == 1) {
+                            DashboardFrame d = new DashboardFrame();
+                            d.setTitle("Dashboard");
+                            d.getContentPane().setBackground(Color.WHITE);
+                            d.setResizable(false);
+                            d.setLocationRelativeTo(null);
+                            d.setVisible(true);
+                            saveLoginAutomaticallyToFile(account, password);
+                            this.dispose();
+                            return;
+                        }
+                        DialogProvider.showMessageDialog("Tài khoản này đã bị chặn !", account);
+                        return;
+                    }
+                    DialogProvider.showMessageDialog("Sai mật khẩu !", account);
+                    return;
+                }
+            }
+            DialogProvider.showMessageDialog("Thông tin tài khoản hoặc mật khẩu không đúng !", account);
+        });
+    }
+    
+    private BufferedWriter writer;
+    private FileWriter fileWriter;
+    private void saveLoginAutomaticallyToFile(String acc, String pass) {
+        if(nhoTKCheckBox.isSelected()) {
+            new Thread(() -> {
+                try {
+                    fileWriter = new FileWriter(APP_CONFIG_URI); 
+                    writer = new BufferedWriter(fileWriter);
+                    writer.flush();
+                    writer.write(acc + "\n" + pass + "\n" + "true");
+                } catch (IOException ex) {
+                    Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+                } finally {
+                    try {
+                        writer.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        fileWriter.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }).start();
+        }
     }
 
     /**
@@ -47,7 +153,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         taiKhoanTextField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        nhơTKCheckBox = new javax.swing.JCheckBox();
+        nhoTKCheckBox = new javax.swing.JCheckBox();
         matKhauPassText = new javax.swing.JPasswordField();
         dangNhapButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -87,14 +193,9 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(0, 51, 102));
         jLabel3.setText("Mật khẩu :");
 
-        nhơTKCheckBox.setBackground(new java.awt.Color(255, 255, 255));
-        nhơTKCheckBox.setForeground(new java.awt.Color(0, 51, 102));
-        nhơTKCheckBox.setText("Nhớ tài khoản");
-        nhơTKCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nhơTKCheckBoxActionPerformed(evt);
-            }
-        });
+        nhoTKCheckBox.setBackground(new java.awt.Color(255, 255, 255));
+        nhoTKCheckBox.setForeground(new java.awt.Color(0, 51, 102));
+        nhoTKCheckBox.setText("Nhớ tài khoản");
 
         matKhauPassText.setBackground(new java.awt.Color(207, 232, 249));
         matKhauPassText.setForeground(new java.awt.Color(0, 51, 102));
@@ -149,7 +250,7 @@ public class LoginFrame extends javax.swing.JFrame {
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(taiKhoanTextField, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(nhơTKCheckBox)
+                                .addComponent(nhoTKCheckBox)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel1))
                             .addComponent(matKhauPassText)
@@ -171,7 +272,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addComponent(matKhauPassText, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nhơTKCheckBox)
+                    .addComponent(nhoTKCheckBox)
                     .addComponent(jLabel1))
                 .addGap(32, 32, 32)
                 .addComponent(dangNhapButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -195,28 +296,8 @@ public class LoginFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void nhơTKCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nhơTKCheckBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nhơTKCheckBoxActionPerformed
-
     private void dangNhapButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dangNhapButtonMouseClicked
-        if(taiKhoanTextField.getText().equals("") || String.valueOf(matKhauPassText.getPassword()).equals("")) {
-            System.out.println("Ban chua nhap du thong tin !");
-        } else {
-            System.out.println("Ban duoc dua vao Dashboard !");
-            DashboardFrame d = new DashboardFrame();
-            d.setTitle("Dashboard");
-            d.getContentPane().setBackground(Color.WHITE);
-            d.setResizable(false);
-            d.setLocationRelativeTo(null);
-            JTabbedPane p = d.getTabbedPane();
-                p.addChangeListener((e) -> {
-                int i = p.getSelectedIndex();
-                System.out.println("User chon : " + p.getTitleAt(i));
-            });
-            d.setVisible(true);
-            this.dispose();
-        }
+
     }//GEN-LAST:event_dangNhapButtonMouseClicked
 
     /**
@@ -266,7 +347,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JLabel logo_image_label;
     private javax.swing.JPasswordField matKhauPassText;
-    private javax.swing.JCheckBox nhơTKCheckBox;
+    private javax.swing.JCheckBox nhoTKCheckBox;
     private javax.swing.JTextField taiKhoanTextField;
     // End of variables declaration//GEN-END:variables
 }

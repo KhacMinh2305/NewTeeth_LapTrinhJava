@@ -84,7 +84,7 @@
                               <Component id="jLabel2" alignment="1" max="32767" attributes="0"/>
                               <Component id="taiKhoanTextField" alignment="1" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="nhơTKCheckBox" min="-2" max="-2" attributes="0"/>
+                                  <Component id="nhoTKCheckBox" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -112,7 +112,7 @@
                   <Component id="matKhauPassText" min="-2" pref="31" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="nhơTKCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="nhoTKCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
@@ -169,7 +169,7 @@
             <Property name="text" type="java.lang.String" value="M&#x1ead;t kh&#x1ea9;u :"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JCheckBox" name="nh&#x1a1;TKCheckBox">
+        <Component class="javax.swing.JCheckBox" name="nhoTKCheckBox">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -179,9 +179,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Nh&#x1edb; t&#xe0;i kho&#x1ea3;n"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nh&#x1a1;TKCheckBoxActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JPasswordField" name="matKhauPassText">
           <Properties>
