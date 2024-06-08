@@ -12,23 +12,27 @@ import mynewteeth.backend.interfaces.IOptionDialogAction;
  * @author Us
  */
 public class DialogProvider {
-    
-    public static void showConfirmDialog(String message, String cationFrameTitle, Object deletedObject, IOptionDialogAction callback) { // pass data if need
+
+    public static void showConfirmDialog(String message, String cautionFrameTitle, Object deletedObject, IOptionDialogAction callback) { // pass data if need
         new Thread(() -> {
-            int result = JOptionPane.showConfirmDialog(null,
+            showSyncConfirmDialog(message, cautionFrameTitle, deletedObject, callback);
+        }).start();
+    }
+
+    public static void showSyncConfirmDialog(String message, String cautionFrameTitle, Object deletedObject, IOptionDialogAction callback) {
+        int result = JOptionPane.showConfirmDialog(null,
                 message,
-                cationFrameTitle,
+                cautionFrameTitle,
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
-            if (result == JOptionPane.YES_OPTION) {
-                callback.onYesOption(deletedObject);
-            } else {
-                callback.onNoOption();
-            }
-        }).start();
+        if (result == JOptionPane.YES_OPTION) {
+            callback.onYesOption(deletedObject);
+        } else {
+            callback.onNoOption();
+        }
     }
-    
+
     public static void showMessageDialog(String message, String title) {
         JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
     }
