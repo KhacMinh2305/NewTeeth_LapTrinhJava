@@ -22,7 +22,7 @@ public class HoaDon {
 
     public HoaDon() {
     }
-
+    
     public HoaDon(String soHoaDon, Date ngayKham, ArrayList<DichVu> dichVu, ArrayList<VatTu> vatTu, double tongTien) {
         this.soHoaDon = soHoaDon;
         this.ngayKham = ngayKham;
@@ -31,13 +31,17 @@ public class HoaDon {
         this.tongTien = tongTien;
     }
 
+    public HoaDon(String soHoaDon, Date ngayKham, Double tongTien) {
+        this.soHoaDon = soHoaDon;
+        this.ngayKham = ngayKham;
+        this.tongTien = tongTien;
+    }
+
     public String getSoHoaDon() {
         return soHoaDon;
     }
 
-    public void setSoHoaDon(String soHoaDon) throws Exception {
-        if(soHoaDon.isEmpty()||soHoaDon.isBlank())
-            throw new Exception("Số hóa đơn không được để trống!");
+    public void setSoHoaDon(String soHoaDon)  {
         this.soHoaDon = soHoaDon;
     }
 
@@ -77,9 +81,7 @@ public class HoaDon {
         return tongTien;
     }
 
-    public void setTongTien(double tongTien) throws Exception {
-        if(tongTien<0) 
-            throw new Exception("Tổng tiền không được âm!");
+    public void setTongTien(double tongTien) {
         this.tongTien = tongTien;
     }
 
@@ -108,5 +110,15 @@ public class HoaDon {
     @Override
     public String toString() {
         return "HoaDon{" + "soHoaDon=" + soHoaDon + ", ngayKham=" + ngayKham + ", benhNhan=" + benhNhan + ", dichVu=" + dichVu + ", vatTu=" + vatTu + ", tongTien=" + tongTien + '}';
+    }
+    
+    public void SoHoaDonNull() throws Exception{
+        if(soHoaDon.trim().isEmpty()||soHoaDon.isBlank())
+            throw new Exception("Số hóa đơn không được để trống!");
+    }
+    
+    public void TongTienAm() throws Exception {
+        if(tongTien<0) 
+            throw new Exception("Tổng tiền không được âm!");
     }
 }
