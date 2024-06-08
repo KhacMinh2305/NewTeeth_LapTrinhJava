@@ -22,6 +22,10 @@ public class BacSi {
     private String chucVu;
     private double luongThang;
 
+    public BacSi() {
+    }
+
+    
     // Constructor đầy đủ
     public BacSi(String maBacSi, String hoTen, Date ngaySinh, String gioiTinh, String queQuan, String soDienThoai, String chuyenMon, String chucVu, double luongThang) {
         this.maBacSi = maBacSi;
@@ -106,6 +110,11 @@ public class BacSi {
 
     public void setLuongThang(double luongThang) {
         this.luongThang = luongThang;
+    }
+
+    @Override
+    public String toString() {
+        return "BacSi{" + "maBacSi=" + maBacSi + ", hoTen=" + hoTen + ", ngaySinh=" + ngaySinh + ", gioiTinh=" + gioiTinh + ", queQuan=" + queQuan + ", soDienThoai=" + soDienThoai + ", chuyenMon=" + chuyenMon + ", chucVu=" + chucVu + ", luongThang=" + luongThang + '}';
     }
     
 }

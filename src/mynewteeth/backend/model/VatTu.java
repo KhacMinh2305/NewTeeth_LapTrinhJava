@@ -11,6 +11,7 @@ import java.util.Date;
  * @author Us
  */
 public class VatTu {
+
     private String maVatTu;
     private String tenVatTu;
     private String loai;
@@ -75,14 +76,29 @@ public class VatTu {
         this.soLuong = soLuong;
     }
 
-    public VatTu(String maVatTu, String tenVatTu, String loai, String tinhTrang, Date ngayNhap, int soLuong) {
+    public double getGiaTien() {
+        try {
+            return Double.parseDouble(this.getGiaNhap()) / this.soLuong;
+        } catch (NumberFormatException e) {
+            System.err.println("Invalid number format for giaNhap: " + this.giaNhap);
+            return 0.0; // Giá trị mặc định nếu không thể chuyển đổi
+        }
+    }
+
+    public VatTu(String maVatTu, String tenVatTu, String loai, String tinhTrang, String giaNhap, Date ngayNhap, int soLuong) {
         this.maVatTu = maVatTu;
         this.tenVatTu = tenVatTu;
         this.loai = loai;
         this.tinhTrang = tinhTrang;
         this.ngayNhap = ngayNhap;
         this.soLuong = soLuong;
-    }     
+        this.giaNhap = giaNhap;
+    }
+
+    @Override
+    public String toString() {
+        return "VatTu{" + "maVatTu=" + maVatTu + ", tenVatTu=" + tenVatTu + ", loai=" + loai + ", tinhTrang=" + tinhTrang + ", giaNhap=" + giaNhap + ", ngayNhap=" + ngayNhap + ", soLuong=" + soLuong + '}';
+    }
 
     public VatTu() {
     }

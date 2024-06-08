@@ -30,6 +30,10 @@ public class BenhNhan {
         this.soDienThoai = soDienThoai;
     }
 
+    public BenhNhan() {
+    }
+    
+
     // Getters và Setters cho tất cả các thuộc tính
     public String getMaBenhNhan() {
         return maBenhNhan;

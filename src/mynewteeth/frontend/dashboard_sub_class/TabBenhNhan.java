@@ -168,7 +168,7 @@ public class TabBenhNhan {
 
             String maBenhNhan = (String) benhNhanTable.getValueAt(selectedRow, 0);
 
-            DialogProvider.showConfirmDialog("Bạn chắc chắn muốn xóa bệnh nhân này?", "Cảnh báo!", "Chiến", new IOptionDialogAction() {
+            DialogProvider.showConfirmDialog("Bạn chắc chắn muốn xóa bệnh nhân này?", "Cảnh báo!","", new IOptionDialogAction() {
                 @Override
                 public void onYesOption(Object object) {
                     // Xử lý logic xóa bệnh nhân
@@ -235,7 +235,7 @@ public class TabBenhNhan {
                 bindData();
                 callback.onUpdate(updatedBenhNhan);
             } else {
-                DialogProvider.showMessageDialog("Có lỗi xảy ra, vui lòng thử lại!", "Thông báo");
+                
             }
         });
 

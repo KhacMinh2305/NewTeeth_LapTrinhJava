@@ -149,6 +149,16 @@ public class BenhNhanController {
         return false;
     }
 
+    public BenhNhan findBenhNhanByMa(String maBenhNhan) {
+        BenhNhan newBenhNhan = new BenhNhan();
+        for (BenhNhan bn : danhSachBenhNhan) {
+            if (bn.getMaBenhNhan().equals(maBenhNhan)) {
+                newBenhNhan = bn;
+            }
+        }
+        return newBenhNhan;
+    }
+
     public List<BenhNhan> getDanhSachBenhNhan() {
         return danhSachBenhNhan;
     }

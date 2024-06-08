@@ -1,16 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package mynewteeth.backend.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- *
- * @author Us
- */
 public class HoSoBenhNhan {
 
     private String maHoSoBenhNhan;
@@ -24,11 +17,12 @@ public class HoSoBenhNhan {
     private String ghiChuBacSi;
     private double tongTien;
     private List<VatTu> listVatTu;
-    
 
-    // Constructor đầy đủ
-    public HoSoBenhNhan(String maHoSoBenhNhan, Date ngayKham, String trieuChung, String chuanDoanBanDau, String tienSuBenh, Date ngayTaiKham, String ghiChuBacSi, double tongTien) {
+    public HoSoBenhNhan(String maHoSoBenhNhan, BenhNhan benhNhan, BacSi bacSi, Date ngayKham,
+            String trieuChung, String chuanDoanBanDau, String tienSuBenh, Date ngayTaiKham, String ghiChuBacSi, double tongTien, List<VatTu> listVatTu) {
         this.maHoSoBenhNhan = maHoSoBenhNhan;
+        this.benhNhan = benhNhan;
+        this.bacSi = bacSi;
         this.ngayKham = ngayKham;
         this.trieuChung = trieuChung;
         this.chuanDoanBanDau = chuanDoanBanDau;
@@ -36,9 +30,10 @@ public class HoSoBenhNhan {
         this.ngayTaiKham = ngayTaiKham;
         this.ghiChuBacSi = ghiChuBacSi;
         this.tongTien = tongTien;
+        this.listVatTu = listVatTu;
     }
 
-    // Getters và setters cho tất cả các thuộc tính
+    
     public String getMaHoSoBenhNhan() {
         return maHoSoBenhNhan;
     }
@@ -118,4 +113,9 @@ public class HoSoBenhNhan {
     public void setTongTien(double tongTien) {
         this.tongTien = tongTien;
     }
+
+    public List<VatTu> getListVatTu() {
+        return listVatTu;
+    }
+    
 }
