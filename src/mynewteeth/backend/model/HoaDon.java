@@ -15,7 +15,7 @@ import java.util.Objects;
 public class HoaDon {
     private String soHoaDon;
     private Date ngayKham;
-    private BenhNhan benhNhan = new BenhNhan();
+    private BenhNhan benhNhan;
     private ArrayList<DichVu> dichVu;
     private ArrayList<VatTu> vatTu;
     private double tongTien;

@@ -5,6 +5,8 @@
 package mynewteeth.backend.model;
 
 import java.util.Date;
+import mynewteeth.backend.interfaces.InvalidSoDienThoaiException;
+import mynewteeth.backend.interfaces.InvalidTenBenhNhanException;
 
 /**
  *
@@ -17,10 +19,6 @@ public class BenhNhan {
     private Date ngaySinh;
     private String queQuan;
     private String soDienThoai;
-
-    // Constructor không đối
-    public BenhNhan() {
-    }
 
     // Constructor đầy đủ
     public BenhNhan(String maBenhNhan, String tenBenhNhan, String gioiTinh, Date ngaySinh, String queQuan, String soDienThoai) {
@@ -80,4 +78,27 @@ public class BenhNhan {
     public void setSoDienThoai(String soDienThoai) {
         this.soDienThoai = soDienThoai;
     }
+    
+     // Kiểm tra số điện thoại
+    public void SoDienThoaiValid() throws InvalidSoDienThoaiException {
+        if (soDienThoai == null || soDienThoai.trim().isEmpty()) {
+            throw new InvalidSoDienThoaiException("Số điện thoại không được để trống");
+        }
+        if (soDienThoai.length() != 10) {
+            throw new InvalidSoDienThoaiException("Số điện thoại phải có độ dài 10 ký tự");
+        }
+        for (char c : soDienThoai.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                throw new InvalidSoDienThoaiException("Số điện thoại chỉ được chứa các chữ số");
+            }
+        }
+
+    }
+    
+    public void TenBenhNhanNull()throws InvalidTenBenhNhanException{
+        if (tenBenhNhan == null || tenBenhNhan.trim().isEmpty()) {
+            throw new InvalidTenBenhNhanException("Tên bệnh nhân không được để trống");
+        }
+    }
+
 }
