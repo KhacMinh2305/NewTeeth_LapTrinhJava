@@ -83,4 +83,7 @@ public class VatTu {
         this.ngayNhap = ngayNhap;
         this.soLuong = soLuong;
     }     
+
+    public VatTu() {
+    }
 }

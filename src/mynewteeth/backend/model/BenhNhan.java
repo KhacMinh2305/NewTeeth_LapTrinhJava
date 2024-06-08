@@ -18,6 +18,10 @@ public class BenhNhan {
     private String queQuan;
     private String soDienThoai;
 
+    // Constructor không đối
+    public BenhNhan() {
+    }
+
     // Constructor đầy đủ
     public BenhNhan(String maBenhNhan, String tenBenhNhan, String gioiTinh, Date ngaySinh, String queQuan, String soDienThoai) {
         this.maBenhNhan = maBenhNhan;
