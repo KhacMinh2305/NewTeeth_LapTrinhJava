@@ -9,7 +9,6 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import mynewteeth.backend.model.BacSi;
 import mynewteeth.backend.model.BenhNhan;
 
 /**

@@ -3,11 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package mynewteeth.frontend.dashboard_sub_class;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import mynewteeth.backend.model.BacSi;
 import mynewteeth.backend.model.BenhNhan;
+import mynewteeth.backend.model.VatTu;
 
 /**
  *
@@ -29,7 +32,7 @@ public class TabHoSoBenhNhan {
     private JButton capNhatBAButton;
     private JButton xoaBAButton;
     private JButton themBAButton;
-
+    
     public TabHoSoBenhNhan(JTextField maBATextField, JTextField tenBATextField, JTextField trieuChungTextField,
             JTextField chanDoanTextField, JTextField tenBacSiTextField, JTextField maBacSiTextField, JTextField ghiChuTextField,
             JTextField ngayTaiKhamTextField, JTable thuocKeDonTable, JTable benhAnTable, JButton timKiemBAButton,
@@ -56,11 +59,6 @@ public class TabHoSoBenhNhan {
     
     // Hàm cập nhật dữ liệu từ các Tab khác - KHÔNG ĐƯỢC XÓA 
     public void updateData(Object updatedObject) {
-        // Test - xóa đi khi làm
-        if(updatedObject instanceof String) {
-            System.out.println("Tab hồ sơ bệnh nhân update data : " + updatedObject);
-            return;
-        }
         
         if(updatedObject instanceof BenhNhan) {
             

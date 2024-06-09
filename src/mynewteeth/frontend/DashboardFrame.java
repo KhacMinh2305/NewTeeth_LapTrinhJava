@@ -104,6 +104,7 @@ public class DashboardFrame extends javax.swing.JFrame {
     }
 
     private static final String APP_CONFIG_URI = "src/mynewteeth/backend/configs/appconfig.txt";
+
     private void initTabTaiKhoan() {
         tabTaiKhoan = new TabTaiKhoan(taiKhoanTable, tiaKhoanTextField, matKhauTextField, ngayTaoTextField,
                 doiMKButton, chanTKButton, xoaTKButton, dangXuatButton, themTKButton, () -> {
@@ -125,7 +126,7 @@ public class DashboardFrame extends javax.swing.JFrame {
                         }
                     }).start();
                     DashboardFrame.this.dispose();
-        });
+                });
     }
 
     /**
@@ -137,6 +138,7 @@ public class DashboardFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFileChooser1 = new javax.swing.JFileChooser();
         jLabel1 = new javax.swing.JLabel();
         dashboardTabPane = new javax.swing.JTabbedPane();
         benhNhanPanel = new javax.swing.JPanel();
@@ -1894,6 +1896,7 @@ public class DashboardFrame extends javax.swing.JFrame {
 
         vatPhamGDTable.setAutoCreateRowSorter(true);
         vatPhamGDTable.setBackground(new java.awt.Color(0, 51, 102));
+        vatPhamGDTable.setForeground(new java.awt.Color(255, 255, 255));
         vatPhamGDTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -1909,7 +1912,7 @@ public class DashboardFrame extends javax.swing.JFrame {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, true, true, true, true, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1920,11 +1923,9 @@ public class DashboardFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        vatPhamGDTable.setColumnSelectionAllowed(true);
         jScrollPane10.setViewportView(vatPhamGDTable);
         vatPhamGDTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (vatPhamGDTable.getColumnModel().getColumnCount() > 0) {
-            vatPhamGDTable.getColumnModel().getColumn(6).setResizable(false);
-        }
 
         jLabel75.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel75.setForeground(new java.awt.Color(0, 0, 0));
@@ -2621,6 +2622,7 @@ public class DashboardFrame extends javax.swing.JFrame {
     private javax.swing.JPanel hoSoBNPanel;
     private javax.swing.JPanel hoaDonTabPane;
     private javax.swing.JTable hoaDonTable;
+    private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
