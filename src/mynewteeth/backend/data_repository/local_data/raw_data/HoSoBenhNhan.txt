@@ -1,5 +1,18 @@
+BA004#12/03/2020#Đau bụng#Viêm ruột#Lăng Tiểu Lệ#BS001#Ăn uống hợp lý#17/03/2020#BN004
+BA005#28/07/2019#Đau ngực#Đau tim#Lam Tiểu Bố#BS005#Tránh stress#02/08/2019#BN005
+BA006#14/02/2022#Mệt mỏi#Thiếu máu#Lăng Hàn#BS006#Bổ sung sắt#19/02/2022#BN006
+BA007#23/10/2018#Đau lưng#Thoái hóa cột sống#Trần Anh Tuấn#BS007#Vận động nhẹ nhàng#28/10/2018#BN007
+BA008#09/11/2017#Đau chân#Gout#Tiểu Vũ#BS008#Kiểm soát ăn uống#14/11/2017#BN008
+BA009#05/12/2016#Đau họng#Viêm họng#Ngưu Thần Nam#BS009#Súc miệng nước muối#10/12/2016#BN009
+BA010#19/04/2015#Chóng mặt#Thiếu máu não#Bùi Thị Nga#BS010#Uống nhiều nước#24/04/2015#BN010
+BA011#01/05/2023#Đau tai#Viêm tai giữa#Dương Văn Quý#BS011#Tránh nước vào tai#06/05/2023#BN011
+BA012#15/08/2020#Đau mỏi vai#Viêm cơ#Lăng Tiểu Lệ#BS001#Tập thể dục#20/08/2020#BN012
+BA013#10/09/2021#Khó thở#Hen suyễn#Lương Văn M#BS013#Tránh tác nhân gây dị ứng#15/09/2021#BN013
+BA014#27/11/2019#Đau mắt#Viêm kết mạc#Cao Thị N#BS014#Giữ vệ sinh mắt#02/12/2019#BN014
+BA015#08/01/2018#Đau bụng#Rối loạn tiêu hóa#Trịnh Văn O#BS015#Ăn uống hợp lý#13/01/2018#BN015
+BA016#20/06/2021#Đau cổ#Thoái hóa đốt sống cổ#Phùng Thị P#BS016#Vận động nhẹ nhàng#25/06/2021#BN016
+BA017#14/03/2022#Đau ngực#Viêm phổi#Hoắc Vũ Hạo#BS002#Uống thuốc đúng giờ#19/03/2022#BN001
 BA001#09/10/2018#Sốt cao#Viêm tủy răng#Lăng Hàn#BS006#cấp cứu#20/10/2018#BN006
-BA003#05/06/2021#Ho kéo dài#Viêm phổi#Đường Tam#BS003#Uống nước nhiều#10/06/2021#BN003
 BA004#12/03/2020#Đau bụng#Viêm ruột#Mã Hồng Tuấn#BS004#Ăn uống hợp lý#17/03/2020#BN004
 BA005#28/07/2019#Đau ngực#Đau tim#Lam Tiểu Bố#BS005#Tránh stress#02/08/2019#BN005
 BA006#14/02/2022#Mệt mỏi#Thiếu máu#Lăng Hàn#BS006#Bổ sung sắt#19/02/2022#BN006
@@ -15,59 +28,6 @@ BA015#08/01/2018#Đau bụng#Rối loạn tiêu hóa#Trịnh Văn O#BS015#Ăn u�
 BA016#20/06/2021#Đau cổ#Thoái hóa đốt sống cổ#Phùng Thị P#BS016#Vận động nhẹ nhàng#25/06/2021#BN016
 BA017#14/03/2022#Đau ngực#Viêm phổi#Lâm Văn Q#BS017#Uống thuốc đúng giờ#19/03/2022#BN017
 BA018#19/12/2018#Đau khớp#Viêm khớp#Nguyễn Thị R#BS018#Tập thể dục#24/12/2018#BN018
-BA019#25/04/2023#Đau dạ dày#Loét dạ dày#Mai Văn S#BS019#Kiểm soát ăn uống#30/04/2023#BN019
-BA001#09/10/2018#Sốt cao#Viêm tủy răng#Lăng Hàn#BS006#cấp cứu#20/10/2018#BN006
+BA050#05/06/2021#Ho kéo dài#Viêm phổi#Đường Tam#BS003#Uống nước nhiều#10/06/2021#BN007
 BA003#05/06/2021#Ho kéo dài#Viêm phổi#Đường Tam#BS003#Uống nước nhiều#10/06/2021#BN003
-BA004#12/03/2020#Đau bụng#Viêm ruột#Mã Hồng Tuấn#BS004#Ăn uống hợp lý#17/03/2020#BN004
-BA005#28/07/2019#Đau ngực#Đau tim#Lam Tiểu Bố#BS005#Tránh stress#02/08/2019#BN005
-BA006#14/02/2022#Mệt mỏi#Thiếu máu#Lăng Hàn#BS006#Bổ sung sắt#19/02/2022#BN006
-BA007#23/10/2018#Đau lưng#Thoái hóa cột sống#Trần Anh Tuấn#BS007#Vận động nhẹ nhàng#28/10/2018#BN007
-BA008#09/11/2017#Đau chân#Gout#Tiểu Vũ#BS008#Kiểm soát ăn uống#14/11/2017#BN008
-BA009#05/12/2016#Đau họng#Viêm họng#Ngưu Thần Nam#BS009#Súc miệng nước muối#10/12/2016#BN009
-BA010#19/04/2015#Chóng mặt#Thiếu máu não#Bùi Thị Nga#BS010#Uống nhiều nước#24/04/2015#BN010
-BA011#01/05/2023#Đau tai#Viêm tai giữa#Dương Văn Quý#BS011#Tránh nước vào tai#06/05/2023#BN011
-BA012#15/08/2020#Đau mỏi vai#Viêm cơ#Phan Thị L#BS012#Tập thể dục#20/08/2020#BN012
-BA013#10/09/2021#Khó thở#Hen suyễn#Lương Văn M#BS013#Tránh tác nhân gây dị ứng#15/09/2021#BN013
-BA014#27/11/2019#Đau mắt#Viêm kết mạc#Cao Thị N#BS014#Giữ vệ sinh mắt#02/12/2019#BN014
-BA015#08/01/2018#Đau bụng#Rối loạn tiêu hóa#Trịnh Văn O#BS015#Ăn uống hợp lý#13/01/2018#BN015
-BA016#20/06/2021#Đau cổ#Thoái hóa đốt sống cổ#Phùng Thị P#BS016#Vận động nhẹ nhàng#25/06/2021#BN016
-BA017#14/03/2022#Đau ngực#Viêm phổi#Lâm Văn Q#BS017#Uống thuốc đúng giờ#19/03/2022#BN017
-BA018#19/12/2018#Đau khớp#Viêm khớp#Nguyễn Thị R#BS018#Tập thể dục#24/12/2018#BN018
-BA019#25/04/2023#Đau dạ dày#Loét dạ dày#Mai Văn S#BS019#Kiểm soát ăn uống#30/04/2023#BN019
-BA001#09/10/2018#Sốt cao#Viêm tủy răng#Lăng Hàn#BS006#cấp cứu#20/10/2018#BN006
-BA003#05/06/2021#Ho kéo dài#Viêm phổi#Đường Tam#BS003#Uống nước nhiều#10/06/2021#BN003
-BA004#12/03/2020#Đau bụng#Viêm ruột#Mã Hồng Tuấn#BS004#Ăn uống hợp lý#17/03/2020#BN004
-BA005#28/07/2019#Đau ngực#Đau tim#Lam Tiểu Bố#BS005#Tránh stress#02/08/2019#BN005
-BA006#14/02/2022#Mệt mỏi#Thiếu máu#Lăng Hàn#BS006#Bổ sung sắt#19/02/2022#BN006
-BA007#23/10/2018#Đau lưng#Thoái hóa cột sống#Trần Anh Tuấn#BS007#Vận động nhẹ nhàng#28/10/2018#BN007
-BA008#09/11/2017#Đau chân#Gout#Tiểu Vũ#BS008#Kiểm soát ăn uống#14/11/2017#BN008
-BA009#05/12/2016#Đau họng#Viêm họng#Ngưu Thần Nam#BS009#Súc miệng nước muối#10/12/2016#BN009
-BA010#19/04/2015#Chóng mặt#Thiếu máu não#Bùi Thị Nga#BS010#Uống nhiều nước#24/04/2015#BN010
-BA011#01/05/2023#Đau tai#Viêm tai giữa#Dương Văn Quý#BS011#Tránh nước vào tai#06/05/2023#BN011
-BA012#15/08/2020#Đau mỏi vai#Viêm cơ#Phan Thị L#BS012#Tập thể dục#20/08/2020#BN012
-BA013#10/09/2021#Khó thở#Hen suyễn#Lương Văn M#BS013#Tránh tác nhân gây dị ứng#15/09/2021#BN013
-BA014#27/11/2019#Đau mắt#Viêm kết mạc#Cao Thị N#BS014#Giữ vệ sinh mắt#02/12/2019#BN014
-BA015#08/01/2018#Đau bụng#Rối loạn tiêu hóa#Trịnh Văn O#BS015#Ăn uống hợp lý#13/01/2018#BN015
-BA016#20/06/2021#Đau cổ#Thoái hóa đốt sống cổ#Phùng Thị P#BS016#Vận động nhẹ nhàng#25/06/2021#BN016
-BA017#14/03/2022#Đau ngực#Viêm phổi#Lâm Văn Q#BS017#Uống thuốc đúng giờ#19/03/2022#BN017
-BA018#19/12/2018#Đau khớp#Viêm khớp#Nguyễn Thị R#BS018#Tập thể dục#24/12/2018#BN018
-BA019#25/04/2023#Đau dạ dày#Loét dạ dày#Mai Văn S#BS019#Kiểm soát ăn uống#30/04/2023#BN019
-BA001#09/10/2018#Sốt cao#Viêm tủy răng#Lăng Hàn#BS006#cấp cứu#20/10/2018#BN006
-BA003#05/06/2021#Ho kéo dài#Viêm phổi#Đường Tam#BS003#Uống nước nhiều#10/06/2021#BN003
-BA004#12/03/2020#Đau bụng#Viêm ruột#Mã Hồng Tuấn#BS004#Ăn uống hợp lý#17/03/2020#BN004
-BA005#28/07/2019#Đau ngực#Đau tim#Lam Tiểu Bố#BS005#Tránh stress#02/08/2019#BN005
-BA006#14/02/2022#Mệt mỏi#Thiếu máu#Lăng Hàn#BS006#Bổ sung sắt#19/02/2022#BN006
-BA007#23/10/2018#Đau lưng#Thoái hóa cột sống#Trần Anh Tuấn#BS007#Vận động nhẹ nhàng#28/10/2018#BN007
-BA008#09/11/2017#Đau chân#Gout#Tiểu Vũ#BS008#Kiểm soát ăn uống#14/11/2017#BN008
-BA009#05/12/2016#Đau họng#Viêm họng#Ngưu Thần Nam#BS009#Súc miệng nước muối#10/12/2016#BN009
-BA010#19/04/2015#Chóng mặt#Thiếu máu não#Bùi Thị Nga#BS010#Uống nhiều nước#24/04/2015#BN010
-BA011#01/05/2023#Đau tai#Viêm tai giữa#Dương Văn Quý#BS011#Tránh nước vào tai#06/05/2023#BN011
-BA012#15/08/2020#Đau mỏi vai#Viêm cơ#Phan Thị L#BS012#Tập thể dục#20/08/2020#BN012
-BA013#10/09/2021#Khó thở#Hen suyễn#Lương Văn M#BS013#Tránh tác nhân gây dị ứng#15/09/2021#BN013
-BA014#27/11/2019#Đau mắt#Viêm kết mạc#Cao Thị N#BS014#Giữ vệ sinh mắt#02/12/2019#BN014
-BA015#08/01/2018#Đau bụng#Rối loạn tiêu hóa#Trịnh Văn O#BS015#Ăn uống hợp lý#13/01/2018#BN015
-BA016#20/06/2021#Đau cổ#Thoái hóa đốt sống cổ#Phùng Thị P#BS016#Vận động nhẹ nhàng#25/06/2021#BN016
-BA017#14/03/2022#Đau ngực#Viêm phổi#Lâm Văn Q#BS017#Uống thuốc đúng giờ#19/03/2022#BN017
-BA018#19/12/2018#Đau khớp#Viêm khớp#Nguyễn Thị R#BS018#Tập thể dục#24/12/2018#BN018
-BA019#25/04/2023#Đau dạ dày#Loét dạ dày#Mai Văn S#BS019#Kiểm soát ăn uống#30/04/2023#BN019
-BA020#02/10/2017#Đau vai#Thoái hóa đốt sống cổ#Trần Thị T#BS020#Tập thể dục#07/10/2017#BN001
+BA052#08/01/2018#Đau bụng#Rối loạn tiêu hóa#Trịnh Văn O#BS015#Ăn uống hợp lý#13/01/2018#BN001

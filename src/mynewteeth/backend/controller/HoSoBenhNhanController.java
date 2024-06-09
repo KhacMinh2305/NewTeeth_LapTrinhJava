@@ -24,6 +24,7 @@ import mynewteeth.backend.interfaces.InvalidMaHoSoBenhNhanException;
 import mynewteeth.backend.model.BacSi;
 import mynewteeth.backend.model.BenhNhan;
 import mynewteeth.backend.model.HoSoBenhNhan;
+import mynewteeth.backend.model.VatTu;
 
 /**
  *
@@ -66,6 +67,15 @@ public class HoSoBenhNhanController {
         return null; // Trả về null nếu không tìm thấy mã Bệnh Nhân
     }
 
+     public HoSoBenhNhan findHoSoBenhNhanByMa(String maHoSoBenhNhan) {
+        for (HoSoBenhNhan hoSo : danhSachHoSoBenhNhan) {
+            if (hoSo.getMaHoSoBenhNhan().equals(maHoSoBenhNhan)) {
+                return hoSo;
+            }
+        }
+        return null;
+    }
+     
     public String findTenBacSiByMa(String maBacSi) {
         String filePath = "src/mynewteeth/backend/data_repository/local_data/raw_data/BacSi.txt";
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -82,10 +92,43 @@ public class HoSoBenhNhanController {
         return null; // Trả về null nếu không tìm thấy mã Bác sĩ
     }
 
+    public void themBenhNhan(String maHoSoBenhNhan, String ngayKham, String trieuChung, String chanDoan, String tenBacSi, String maBacSi, String ghiChu, String ngayTaiKham, String maBenhNhan) {
+        try {
+            MaBenhAnExists(maHoSoBenhNhan);
+            BacSi bacSi = bacSiController.findBacSiByMa(maBacSi);
+            BenhNhan benhNhan = benhNhanController.findBenhNhanByMa(maBenhNhan);
+            List<VatTu> listVatTu = vaTuConTroller.getDanhSachVatTu();
+
+            // Định dạng ngày tháng
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date ngayKhamDate = null;
+            Date ngayTaiKhamDate = null;
+
+            try {
+                if (ngayKham != null && !ngayKham.isEmpty()) {
+                    ngayKhamDate = sdf.parse(ngayKham);
+                }
+                if (ngayTaiKham != null && !ngayTaiKham.isEmpty()) {
+                    ngayTaiKhamDate = sdf.parse(ngayTaiKham);
+                }
+            } catch (ParseException e) {
+                System.out.println("Lỗi định dạng ngày tháng: " + e.getMessage());
+            }
+
+            HoSoBenhNhan h = new HoSoBenhNhan(maHoSoBenhNhan, benhNhan, bacSi, ngayKhamDate,
+                    trieuChung, chanDoan, "", ngayTaiKhamDate, ghiChu, 0, listVatTu);
+
+            danhSachHoSoBenhNhan.add(h);
+
+        } catch (InvalidMaHoSoBenhNhanException e) {
+            javax.swing.JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+
     // Hàm lưu thông tin vào file HoSoBenhNhan.txt
     public boolean saveToHoSoBenhNhanFile(String maHoSoBenhNhan, String ngayKham, String trieuChung, String chanDoan, String tenBacSi, String maBacSi, String ghiChu, String ngayTaiKham, String maBenhNhan) {
         try {
-            MaBenhAnExists(maHoSoBenhNhan);
+            
             String fileName = "src/mynewteeth/backend/data_repository/local_data/raw_data/HoSoBenhNhan.txt";
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
                 // Ghi thông tin vào file
@@ -97,13 +140,14 @@ public class HoSoBenhNhanController {
                 JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi ghi vào file HoSoBenhNhan.txt: " + e.getMessage());
                 return false;
             }
-        } catch (InvalidMaHoSoBenhNhanException ex) {
+        } catch (Exception ex) {
             javax.swing.JOptionPane.showMessageDialog(null, ex.getMessage());
             return false;
         }
     }
 
-    public void loadFromFile(String fileName) {
+    public void loadFromFile() {
+        String fileName = "src/mynewteeth/backend/data_repository/local_data/raw_data/HoSoBenhNhan.txt";
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -161,13 +205,68 @@ public class HoSoBenhNhanController {
     }
 
     public boolean removeHoSoBenhNhanByMa(String maHoSoBenhNhan) {
-        for (HoSoBenhNhan hoSo : danhSachHoSoBenhNhan) {
-            if (hoSo.getMaHoSoBenhNhan().equals(maHoSoBenhNhan)) {
-                danhSachHoSoBenhNhan.remove(hoSo);
-                return true;
+        HoSoBenhNhan hoSoBenhNhanCanXoa = null;
+        for (HoSoBenhNhan h : danhSachHoSoBenhNhan) {
+            if (h.getMaHoSoBenhNhan().equals(maHoSoBenhNhan)) {
+                hoSoBenhNhanCanXoa = h;
+                break;
             }
         }
-        return false;
+        if (hoSoBenhNhanCanXoa != null) {
+            danhSachHoSoBenhNhan.remove(hoSoBenhNhanCanXoa);
+            System.out.println("Đã xóa hồ sơ bệnh nhân: " + maHoSoBenhNhan);
+            return true;
+        } else {
+            System.out.println("Không tìm thấy hồ sơ bệnh nhân: " + maHoSoBenhNhan);
+            return false;
+        }
+    }
+
+    public void suaHoSoBenhNhan(String maHoSoBenhNhan, String ngayKham, String trieuChung, String chanDoan, String maBacSi, String ghiChu, String ngayTaiKham, String maBenhNhan) {
+        // Tìm kiếm hồ sơ bệnh nhân cần sửa
+        HoSoBenhNhan hoSoCanSua = findHoSoBenhNhanByMa(maHoSoBenhNhan);
+        if (hoSoCanSua != null) {
+            // Định dạng ngày tháng
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date ngayKhamDate = null;
+            Date ngayTaiKhamDate = null;
+
+            try {
+                if (ngayKham != null && !ngayKham.isEmpty()) {
+                    ngayKhamDate = sdf.parse(ngayKham);
+                }
+                if (ngayTaiKham != null && !ngayTaiKham.isEmpty()) {
+                    ngayTaiKhamDate = sdf.parse(ngayTaiKham);
+                }
+            } catch (ParseException e) {
+                System.out.println("Lỗi định dạng ngày tháng: " + e.getMessage());
+            }
+
+            // Cập nhật thông tin cho hồ sơ bệnh nhân
+            hoSoCanSua.setNgayKham(ngayKhamDate);
+            hoSoCanSua.setTrieuChung(trieuChung);
+            hoSoCanSua.setChuanDoanBanDau(chanDoan);
+            hoSoCanSua.setGhiChuBacSi(ghiChu);
+            hoSoCanSua.setNgayTaiKham(ngayTaiKhamDate);
+
+            // Tìm và cập nhật bác sĩ và bệnh nhân nếu cần
+            BacSi bacSi = bacSiController.findBacSiByMa(maBacSi);
+            if (bacSi != null) {
+                hoSoCanSua.setBacSi(bacSi);
+            }
+            BenhNhan benhNhan = benhNhanController.findBenhNhanByMa(maBenhNhan);
+            if (benhNhan != null) {
+                hoSoCanSua.setBenhNhan(benhNhan);
+            }
+  
+            // Lưu danh sách hồ sơ bệnh nhân đã cập nhật vào file
+            SaveToFile();
+            JOptionPane.showMessageDialog(null, "Đã cập nhật hồ sơ bệnh nhân: " + maHoSoBenhNhan);
+            System.out.println("Đã cập nhật hồ sơ bệnh nhân: " + maHoSoBenhNhan);
+        } else {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy hồ sơ bệnh nhân: " + maHoSoBenhNhan);
+            System.out.println("Không tìm thấy hồ sơ bệnh nhân: " + maHoSoBenhNhan);
+        }
     }
 
     public BenhNhanController getBenhNhanController() {

@@ -76,7 +76,7 @@ public class TabHoSoBenhNhan {
         this.xoaBAButton = xoaBAButton;
         this.themBAButton = themBAButton;
         controller = new HoSoBenhNhanController();
-        controller.loadFromFile("src/mynewteeth/backend/data_repository/local_data/raw_data/HoSoBenhNhan.txt");
+        controller.loadFromFile();
         bindData();
         // handle action
         handAddingAction();
@@ -180,7 +180,7 @@ public class TabHoSoBenhNhan {
     private void handSearchingAction() {
         timKiemBAButton.addActionListener(e -> {
             String maHoSoBenhNhan = maBATextField.getText().trim(); // Lấy mã hồ sơ bệnh nhân từ trường nhập liệu
-            HoSoBenhNhan hoSoBenhNhan = findHoSoBenhNhanByMa(maHoSoBenhNhan); // Tìm hồ sơ bệnh nhân trong danh sách
+            HoSoBenhNhan hoSoBenhNhan = controller.findHoSoBenhNhanByMa(maHoSoBenhNhan); // Tìm hồ sơ bệnh nhân trong danh sách
 
             if (hoSoBenhNhan != null) {
                 // Đổ thông tin hồ sơ bệnh nhân vào UI
@@ -209,15 +209,7 @@ public class TabHoSoBenhNhan {
         });
     }
 
-    //tìm hồ sơ bệnh nhân theo mã
-    private HoSoBenhNhan findHoSoBenhNhanByMa(String maHoSoBenhNhan) {
-        for (HoSoBenhNhan hoSo : controller.getDanhSachHoSoBenhNhan()) {
-            if (hoSo.getMaHoSoBenhNhan().equals(maHoSoBenhNhan)) {
-                return hoSo;
-            }
-        }
-        return null;
-    }
+//    
 
     //thêm hồ sơ bệnh nhân 
     private void handAddingAction() {
@@ -243,7 +235,7 @@ public class TabHoSoBenhNhan {
                 // Tìm tên Bệnh Nhân dựa vào mã Bệnh Nhân
                 String tenBenhNhan = controller.findTenBenhNhanByMaBenhNhan(maBenhNhan);
                 
-
+                controller.themBenhNhan(maHoSoBenhNhan, ngayKham, trieuChung, chanDoan, maBacSi, maBacSi, ghiChu, ngayTaiKham, maBenhNhan);
                         
                 // Tìm Tên Bác Sỹ Dựa vào mã Bác Sỹ
                 String tenBacSi = controller.findTenBacSiByMa(maBacSi);
@@ -278,50 +270,8 @@ public class TabHoSoBenhNhan {
                 JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin!");
                 return;
             }
-
-            // Tìm hồ sơ bệnh nhân trong danh sách và cập nhật thông tin
-            boolean found = false;
-            controller.loadFromFile("src/mynewteeth/backend/data_repository/local_data/raw_data/HoSoBenhNhan.txt");
-            for (HoSoBenhNhan hsbn : controller.getDanhSachHoSoBenhNhan()) {
-                if (hsbn.getMaHoSoBenhNhan().equals(maHoSoBenhNhan)) {
-                    found = true;
-                    try {
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                        hsbn.setNgayKham(sdf.parse(ngayKham));
-                        hsbn.setTrieuChung(trieuChung);
-                        hsbn.setChuanDoanBanDau(chanDoan);
-                        hsbn.setBacSi(controller.getBacSiController().findBacSiByMa(maBacSi));
-                        hsbn.setGhiChuBacSi(ghiChu);
-                        hsbn.setNgayTaiKham(sdf.parse(ngayTaiKham));
-                        hsbn.setBenhNhan(controller.getBenhNhanController().findBenhNhanByMa(maBenhNhan));
-                    } catch (ParseException ex) {
-                        JOptionPane.showMessageDialog(null, "Định dạng ngày không hợp lệ! Vui lòng nhập lại.");
-                        return;
-                    }
-
-                    // Cập nhật thông tin trên bảng
-                    DefaultTableModel model = (DefaultTableModel) benhAnTable.getModel();
-                    for (int i = 0; i < model.getRowCount(); i++) {
-                        if (model.getValueAt(i, 0).equals(maHoSoBenhNhan)) {
-                            model.setValueAt(maHoSoBenhNhan, i, 0);
-                            model.setValueAt(hsbn.getBenhNhan().getTenBenhNhan(), i, 1);
-                            model.setValueAt(ngayKham, i, 2);
-                            model.setValueAt(hsbn.getBacSi().getHoTen(), i, 3);
-                            break;
-                        }
-                    }
-
-                    // Cập nhật file lưu trữ
-                    controller.SaveToFile();
-                    JOptionPane.showMessageDialog(null, "Cập nhật bệnh án thành công!");
-                    break;
-                }
-            }
-
-            if (!found) {
-                JOptionPane.showMessageDialog(null, "Không tìm thấy hồ sơ bệnh nhân với mã: " + maHoSoBenhNhan);
-            }
-
+            controller.suaHoSoBenhNhan(maHoSoBenhNhan, ngayKham, trieuChung, chanDoan, maBacSi, ghiChu, ngayTaiKham, maBenhNhan);
+            bindData();
         });
     }
 
