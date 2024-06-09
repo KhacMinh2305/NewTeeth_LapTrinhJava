@@ -616,7 +616,6 @@ public class DashboardFrame extends javax.swing.JFrame {
         chanDoanTextField.setBackground(new java.awt.Color(227, 238, 245));
 
         tenBacSiTextField.setBackground(new java.awt.Color(227, 238, 245));
-        tenBacSiTextField.setEnabled(false);
 
         ghiChuTextField.setBackground(new java.awt.Color(227, 238, 245));
 

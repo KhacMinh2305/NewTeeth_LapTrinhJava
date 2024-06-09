@@ -12,6 +12,9 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -77,19 +80,22 @@ public class TabHoSoBenhNhan {
         bindData();
         // handle action
         handAddingAction();
-
+        handleTableBehavior();
+        handleUpdatingAction();
+        handSearchingAction();
+        handRemovingAction();
     }
 
+    // Lấy liệu đã được load từ Controller lên rồi đổ vào UI
     private void bindData() {
-        // Lấy liệu đã được load từ Controller lên rồi đổ vào UI
         List<HoSoBenhNhan> hsbn = controller.getDanhSachHoSoBenhNhan();
-
         DefaultTableModel model = (DefaultTableModel) benhAnTable.getModel();
         DefaultTableModel model1 = (DefaultTableModel) thuocKeDonTable.getModel();
         
         // Xóa dữ liệu cũ trong bảng (nếu có)
         model.setRowCount(0);
         model1.setRowCount(0);
+        
         // Thêm từng bệnh nhân vào bảng
         for (HoSoBenhNhan hs : hsbn) {
             Object[] rowData = {
@@ -110,7 +116,43 @@ public class TabHoSoBenhNhan {
             };
             model1.addRow(rowData);
         }
-        
+
+    }
+
+    //hiển thị thông tin vào các text khi chon 1 dòng trong table
+    private void handleTableBehavior() {
+        benhAnTable.getSelectionModel().addListSelectionListener(e -> {
+            int selectedIndex = benhAnTable.getSelectedRow();
+            if (selectedIndex != -1) {
+                for (HoSoBenhNhan f : controller.getDanhSachHoSoBenhNhan()) {
+                    if (f.getMaHoSoBenhNhan().equals(benhAnTable.getValueAt(selectedIndex, 0).toString())) {
+                        maBATextField.setText(f.getMaHoSoBenhNhan());
+                        trieuChungTextField.setText(f.getTrieuChung());
+                        chanDoanTextField.setText(f.getChuanDoanBanDau());
+                        tenBacSiTextField.setText(f.getBacSi().getHoTen());
+                        maBacSiTextField.setText(f.getBacSi().getMaBacSi());
+                        ghiChuTextField.setText(f.getGhiChuBacSi());
+                        maBenhNhanTextField.setText(f.getBenhNhan().getMaBenhNhan());
+                        tenBNLabel.setText(f.getBenhNhan().getTenBenhNhan());
+                        gioiTinhBNLabel.setText(f.getBenhNhan().getGioiTinh());
+                        dienThoaiBNLabel.setText(f.getBenhNhan().getSoDienThoai());
+
+                        // Format the date of birth
+                        Date ngaySinh = f.getBenhNhan().getNgaySinh();
+                        Date ngayTaiKham = f.getNgayTaiKham();
+                        Date ngayKham = f.getNgayKham();
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        String fomattedNgayTaiKham = dateFormat.format(ngayTaiKham);
+                        String formattedNgaySinh = dateFormat.format(ngaySinh);
+                        String formattedNgayKham = dateFormat.format(ngayKham);
+                        ngaySinhBNLabel.setText(formattedNgaySinh);
+                        ngayTaiKhamTextField.setText(fomattedNgayTaiKham);
+                        ngayKhamTextField.setText(formattedNgayKham);
+
+                    }
+                }
+            }
+        });
     }
 
     // Viết các hàm xử lý dữ liệu và xử lý sự kiện 
@@ -134,6 +176,50 @@ public class TabHoSoBenhNhan {
         }
     }
 
+    //Tìm kiếm hồ sơ bệnh nhân theo mã hồ sơ bệnh nhân
+    private void handSearchingAction() {
+        timKiemBAButton.addActionListener(e -> {
+            String maHoSoBenhNhan = maBATextField.getText().trim(); // Lấy mã hồ sơ bệnh nhân từ trường nhập liệu
+            HoSoBenhNhan hoSoBenhNhan = findHoSoBenhNhanByMa(maHoSoBenhNhan); // Tìm hồ sơ bệnh nhân trong danh sách
+
+            if (hoSoBenhNhan != null) {
+                // Đổ thông tin hồ sơ bệnh nhân vào UI
+                maBATextField.setText(hoSoBenhNhan.getMaHoSoBenhNhan());
+                trieuChungTextField.setText(hoSoBenhNhan.getTrieuChung());
+                chanDoanTextField.setText(hoSoBenhNhan.getChuanDoanBanDau());
+                tenBacSiTextField.setText(hoSoBenhNhan.getBacSi().getHoTen());
+                maBacSiTextField.setText(hoSoBenhNhan.getBacSi().getMaBacSi());
+                ghiChuTextField.setText(hoSoBenhNhan.getGhiChuBacSi());
+                maBenhNhanTextField.setText(hoSoBenhNhan.getBenhNhan().getMaBenhNhan());
+                tenBNLabel.setText(hoSoBenhNhan.getBenhNhan().getTenBenhNhan());
+                gioiTinhBNLabel.setText(hoSoBenhNhan.getBenhNhan().getGioiTinh());
+                dienThoaiBNLabel.setText(hoSoBenhNhan.getBenhNhan().getSoDienThoai());
+
+                // Chọn dòng có mã hồ sơ bệnh nhân trong bảng
+                DefaultTableModel model = (DefaultTableModel) benhAnTable.getModel();
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    if (model.getValueAt(i, 0).equals(maHoSoBenhNhan)) {
+                        benhAnTable.setRowSelectionInterval(i, i);
+                        break;
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Không tìm thấy hồ sơ bệnh nhân với mã: " + maHoSoBenhNhan);
+            }
+        });
+    }
+
+    //tìm hồ sơ bệnh nhân theo mã
+    private HoSoBenhNhan findHoSoBenhNhanByMa(String maHoSoBenhNhan) {
+        for (HoSoBenhNhan hoSo : controller.getDanhSachHoSoBenhNhan()) {
+            if (hoSo.getMaHoSoBenhNhan().equals(maHoSoBenhNhan)) {
+                return hoSo;
+            }
+        }
+        return null;
+    }
+
+    //thêm hồ sơ bệnh nhân 
     private void handAddingAction() {
         themBAButton.addActionListener(new ActionListener() {
             @Override
@@ -147,17 +233,22 @@ public class TabHoSoBenhNhan {
                 String ghiChu = ghiChuTextField.getText();
                 String ngayTaiKham = ngayTaiKhamTextField.getText();
                 String maBenhNhan = maBenhNhanTextField.getText();
-
+                BacSi newBS = controller.getBacSiController().findBacSiByMa(maBacSi);
+                BenhNhan newBN = controller.getBenhNhanController().findBenhNhanByMa(maBenhNhan);
+                List<VatTu> newVT = controller.getVaTuConTroller().getDanhSachVatTu();
                 if (maHoSoBenhNhan.isEmpty() || ngayKham.isEmpty() || trieuChung.isEmpty() || chanDoan.isEmpty() || maBacSi.isEmpty() || ngayTaiKham.isEmpty() || maBenhNhan.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin!");
                     return; // Dừng lại nếu có thông tin bị thiếu
                 }
                 // Tìm tên Bệnh Nhân dựa vào mã Bệnh Nhân
                 String tenBenhNhan = controller.findTenBenhNhanByMaBenhNhan(maBenhNhan);
+                
 
+                        
                 // Tìm Tên Bác Sỹ Dựa vào mã Bác Sỹ
                 String tenBacSi = controller.findTenBacSiByMa(maBacSi);
-                boolean valid = controller.saveToHoSoBenhNhanFile(maHoSoBenhNhan, ngayKham, trieuChung, chanDoan, tenBacSi, maBacSi, ghiChu, ngayTaiKham, maBenhNhan);
+          
+                boolean valid = controller.saveToHoSoBenhNhanFile(maHoSoBenhNhan, ngayKham, trieuChung, chanDoan, tenBacSi, maBacSi, ghiChu, ngayTaiKham, maBenhNhan);                                         
                 if (valid) {
                     // Thêm thông tin vào bảng benhAnTable
                     DefaultTableModel model = (DefaultTableModel) benhAnTable.getModel();
@@ -171,4 +262,97 @@ public class TabHoSoBenhNhan {
         });
     }
 
+    //sửa hồ sơ bệnh nhân theo mã hồ sơ 
+    private void handleUpdatingAction() {
+        capNhatBAButton.addActionListener(e -> {
+            String maHoSoBenhNhan = maBATextField.getText();
+            String ngayKham = ngayKhamTextField.getText();
+            String trieuChung = trieuChungTextField.getText();
+            String chanDoan = chanDoanTextField.getText();
+            String maBacSi = maBacSiTextField.getText();
+            String ghiChu = ghiChuTextField.getText();
+            String ngayTaiKham = ngayTaiKhamTextField.getText();
+            String maBenhNhan = maBenhNhanTextField.getText();
+
+            if (maHoSoBenhNhan.isEmpty() || ngayKham.isEmpty() || trieuChung.isEmpty() || chanDoan.isEmpty() || maBacSi.isEmpty() || ngayTaiKham.isEmpty() || maBenhNhan.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin!");
+                return;
+            }
+
+            // Tìm hồ sơ bệnh nhân trong danh sách và cập nhật thông tin
+            boolean found = false;
+            controller.loadFromFile("src/mynewteeth/backend/data_repository/local_data/raw_data/HoSoBenhNhan.txt");
+            for (HoSoBenhNhan hsbn : controller.getDanhSachHoSoBenhNhan()) {
+                if (hsbn.getMaHoSoBenhNhan().equals(maHoSoBenhNhan)) {
+                    found = true;
+                    try {
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        hsbn.setNgayKham(sdf.parse(ngayKham));
+                        hsbn.setTrieuChung(trieuChung);
+                        hsbn.setChuanDoanBanDau(chanDoan);
+                        hsbn.setBacSi(controller.getBacSiController().findBacSiByMa(maBacSi));
+                        hsbn.setGhiChuBacSi(ghiChu);
+                        hsbn.setNgayTaiKham(sdf.parse(ngayTaiKham));
+                        hsbn.setBenhNhan(controller.getBenhNhanController().findBenhNhanByMa(maBenhNhan));
+                    } catch (ParseException ex) {
+                        JOptionPane.showMessageDialog(null, "Định dạng ngày không hợp lệ! Vui lòng nhập lại.");
+                        return;
+                    }
+
+                    // Cập nhật thông tin trên bảng
+                    DefaultTableModel model = (DefaultTableModel) benhAnTable.getModel();
+                    for (int i = 0; i < model.getRowCount(); i++) {
+                        if (model.getValueAt(i, 0).equals(maHoSoBenhNhan)) {
+                            model.setValueAt(maHoSoBenhNhan, i, 0);
+                            model.setValueAt(hsbn.getBenhNhan().getTenBenhNhan(), i, 1);
+                            model.setValueAt(ngayKham, i, 2);
+                            model.setValueAt(hsbn.getBacSi().getHoTen(), i, 3);
+                            break;
+                        }
+                    }
+
+                    // Cập nhật file lưu trữ
+                    controller.SaveToFile();
+                    JOptionPane.showMessageDialog(null, "Cập nhật bệnh án thành công!");
+                    break;
+                }
+            }
+
+            if (!found) {
+                JOptionPane.showMessageDialog(null, "Không tìm thấy hồ sơ bệnh nhân với mã: " + maHoSoBenhNhan);
+            }
+
+        });
+    }
+
+    //Xóa hồ sơ bệnh nhân đã chọn trong bảng
+    private void handRemovingAction() {
+        xoaBAButton.addActionListener(e -> {
+            int selectedIndex = benhAnTable.getSelectedRow();
+            if (selectedIndex != -1) {
+                String maHoSoBenhNhan = benhAnTable.getValueAt(selectedIndex, 0).toString(); // Lấy mã hồ sơ bệnh nhân từ dòng được chọn
+
+                // Xác nhận việc xóa
+                int confirm = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa hồ sơ bệnh nhân với mã: " + maHoSoBenhNhan + "?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    // Xóa hồ sơ bệnh nhân trong danh sách trong controller
+                    boolean found = controller.removeHoSoBenhNhanByMa(maHoSoBenhNhan);
+                    if (found) {
+                        // Cập nhật file lưu trữ
+                        controller.SaveToFile();
+
+                        // Cập nhật bảng
+                        DefaultTableModel model = (DefaultTableModel) benhAnTable.getModel();
+                        model.removeRow(selectedIndex);
+
+                        JOptionPane.showMessageDialog(null, "Xóa bệnh án thành công!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Không tìm thấy hồ sơ bệnh nhân với mã: " + maHoSoBenhNhan);
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn một hồ sơ bệnh nhân để xóa.");
+            }
+        });
+    }
 }

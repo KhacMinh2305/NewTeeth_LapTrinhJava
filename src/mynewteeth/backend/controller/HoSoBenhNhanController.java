@@ -35,6 +35,7 @@ public class HoSoBenhNhanController {
     private BenhNhanController benhNhanController;
     private BacSiController bacSiController;
     private VatTuController vaTuConTroller;
+
     public HoSoBenhNhanController() {
         danhSachHoSoBenhNhan = new ArrayList<>();
         benhNhanController = new BenhNhanController();
@@ -48,7 +49,7 @@ public class HoSoBenhNhanController {
     public VatTuController getVaTuConTroller() {
         return vaTuConTroller;
     }
-    
+
     public String findTenBenhNhanByMaBenhNhan(String maBenhNhan) {
         String filePath = "src/mynewteeth/backend/data_repository/local_data/raw_data/BenhNhan.txt";
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -93,7 +94,7 @@ public class HoSoBenhNhanController {
                 return true;
             } catch (IOException e) {
                 // Xử lý nếu có lỗi khi ghi vào file
-                JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi ghi vào file HoSoBenhNhan.txt: " + e.getMessage()); 
+                JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi ghi vào file HoSoBenhNhan.txt: " + e.getMessage());
                 return false;
             }
         } catch (InvalidMaHoSoBenhNhanException ex) {
@@ -105,10 +106,10 @@ public class HoSoBenhNhanController {
     public void loadFromFile(String fileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");  // Định dạng ngày tháng
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split("#");
-                if (parts.length == 9) { // Số lượng thuộc tính trong một dòng
+                if (parts.length == 9) {
                     String maHoSoBenhNhan = parts[0];
                     Date ngayKham = parts[1].isEmpty() ? null : sdf.parse(parts[1]);
                     String trieuChung = parts[2];
@@ -119,10 +120,7 @@ public class HoSoBenhNhanController {
 
                     BenhNhan benhNhan = benhNhanController.findBenhNhanByMa(parts[8]);
                     BacSi bacSi = bacSiController.findBacSiByMa(parts[5]);
-//                    if(bacSi==null){
-//                        bacSi = new BacSi("BS001","pppp",ngayKha,"Nam","pppppppp","0964203976","66666666d","dfdfsa",1500000.5);
-//                    }
-                    // Tạo đối tượng HoSoBenhNhan và thêm vào danh sách
+
                     HoSoBenhNhan hoSoBenhNhan = new HoSoBenhNhan(maHoSoBenhNhan, benhNhan, bacSi, ngayKham,
                             trieuChung, chuanDoanBanDau, tienSuBenh, ngayTaiKham, ghiChuBacSi, 0, vaTuConTroller.getDanhSachVatTu());
                     danhSachHoSoBenhNhan.add(hoSoBenhNhan);
@@ -137,12 +135,47 @@ public class HoSoBenhNhanController {
         }
     }
 
+    // Hàm lưu danh sách hồ sơ bệnh nhân vào file
+    public void SaveToFile() {
+        String fileName = "src/mynewteeth/backend/data_repository/local_data/raw_data/HoSoBenhNhan.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            for (HoSoBenhNhan hoSo : danhSachHoSoBenhNhan) {
+                String ngayKham = hoSo.getNgayKham() != null ? sdf.format(hoSo.getNgayKham()) : "";
+                String ngayTaiKham = hoSo.getNgayTaiKham() != null ? sdf.format(hoSo.getNgayTaiKham()) : "";
+                writer.write(hoSo.getMaHoSoBenhNhan() + "#" + ngayKham + "#" + hoSo.getTrieuChung() + "#" + hoSo.getChuanDoanBanDau() + "#" + hoSo.getBacSi().getHoTen()
+                        + "#" + hoSo.getBacSi().getMaBacSi() + "#" + hoSo.getGhiChuBacSi() + "#" + ngayTaiKham + "#" + hoSo.getBenhNhan().getMaBenhNhan());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Đã xảy ra lỗi khi ghi vào file HoSoBenhNhan.txt: " + e.getMessage());
+        }
+    }
+
     public void MaBenhAnExists(String maBenhAn) throws InvalidMaHoSoBenhNhanException {
         for (HoSoBenhNhan bn : danhSachHoSoBenhNhan) {
             if (bn.getMaHoSoBenhNhan().equals(maBenhAn)) {
                 throw new InvalidMaHoSoBenhNhanException("Mã hồ sơ bênh nhân đã tồn tại vui lòng nhập lại");
             }
         }
+    }
+
+    public boolean removeHoSoBenhNhanByMa(String maHoSoBenhNhan) {
+        for (HoSoBenhNhan hoSo : danhSachHoSoBenhNhan) {
+            if (hoSo.getMaHoSoBenhNhan().equals(maHoSoBenhNhan)) {
+                danhSachHoSoBenhNhan.remove(hoSo);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public BenhNhanController getBenhNhanController() {
+        return benhNhanController;
+    }
+
+    public BacSiController getBacSiController() {
+        return bacSiController;
     }
 
     public List<HoSoBenhNhan> getDanhSachHoSoBenhNhan() {
