@@ -91,11 +91,11 @@ public class TabHoSoBenhNhan {
         List<HoSoBenhNhan> hsbn = controller.getDanhSachHoSoBenhNhan();
         DefaultTableModel model = (DefaultTableModel) benhAnTable.getModel();
         DefaultTableModel model1 = (DefaultTableModel) thuocKeDonTable.getModel();
-        
+
         // Xóa dữ liệu cũ trong bảng (nếu có)
         model.setRowCount(0);
         model1.setRowCount(0);
-        
+
         // Thêm từng bệnh nhân vào bảng
         for (HoSoBenhNhan hs : hsbn) {
             Object[] rowData = {
@@ -129,13 +129,15 @@ public class TabHoSoBenhNhan {
                         maBATextField.setText(f.getMaHoSoBenhNhan());
                         trieuChungTextField.setText(f.getTrieuChung());
                         chanDoanTextField.setText(f.getChuanDoanBanDau());
-                        tenBacSiTextField.setText(f.getBacSi().getHoTen());
+                        //tenBacSiTextField.setText(f.getBacSi().getHoTen());
                         maBacSiTextField.setText(f.getBacSi().getMaBacSi());
                         ghiChuTextField.setText(f.getGhiChuBacSi());
                         maBenhNhanTextField.setText(f.getBenhNhan().getMaBenhNhan());
-                        tenBNLabel.setText(f.getBenhNhan().getTenBenhNhan());
+                        //tenBNLabel.setText(f.getBenhNhan().getTenBenhNhan());
                         gioiTinhBNLabel.setText(f.getBenhNhan().getGioiTinh());
                         dienThoaiBNLabel.setText(f.getBenhNhan().getSoDienThoai());
+                        tenBacSiTextField.setText(controller.findTenBacSiByMa(f.getBacSi().getMaBacSi()));
+                        tenBNLabel.setText(controller.findTenBenhNhanByMaBenhNhan(f.getBenhNhan().getMaBenhNhan()));
 
                         // Format the date of birth
                         Date ngaySinh = f.getBenhNhan().getNgaySinh();
@@ -148,7 +150,6 @@ public class TabHoSoBenhNhan {
                         ngaySinhBNLabel.setText(formattedNgaySinh);
                         ngayTaiKhamTextField.setText(fomattedNgayTaiKham);
                         ngayKhamTextField.setText(formattedNgayKham);
-
                     }
                 }
             }
@@ -179,8 +180,8 @@ public class TabHoSoBenhNhan {
     //Tìm kiếm hồ sơ bệnh nhân theo mã hồ sơ bệnh nhân
     private void handSearchingAction() {
         timKiemBAButton.addActionListener(e -> {
-            String maHoSoBenhNhan = maBATextField.getText().trim(); // Lấy mã hồ sơ bệnh nhân từ trường nhập liệu
-            HoSoBenhNhan hoSoBenhNhan = controller.findHoSoBenhNhanByMa(maHoSoBenhNhan); // Tìm hồ sơ bệnh nhân trong danh sách
+            String maHoSoBenhNhan = maBATextField.getText().trim();
+            HoSoBenhNhan hoSoBenhNhan = controller.findHoSoBenhNhanByMa(maHoSoBenhNhan);
 
             if (hoSoBenhNhan != null) {
                 // Đổ thông tin hồ sơ bệnh nhân vào UI
@@ -209,7 +210,21 @@ public class TabHoSoBenhNhan {
         });
     }
 
-//    
+    private void resetTextField() {
+        maBATextField.setText("");
+        trieuChungTextField.setText("");
+        chanDoanTextField.setText("");
+        maBacSiTextField.setText("");
+        ghiChuTextField.setText("");
+        maBenhNhanTextField.setText("");
+        gioiTinhBNLabel.setText("");
+        dienThoaiBNLabel.setText("");
+        tenBacSiTextField.setText("");
+        tenBNLabel.setText("");
+        ngaySinhBNLabel.setText("");
+        ngayTaiKhamTextField.setText("");
+        ngayKhamTextField.setText("");
+    }
 
     //thêm hồ sơ bệnh nhân 
     private void handAddingAction() {
@@ -234,13 +249,13 @@ public class TabHoSoBenhNhan {
                 }
                 // Tìm tên Bệnh Nhân dựa vào mã Bệnh Nhân
                 String tenBenhNhan = controller.findTenBenhNhanByMaBenhNhan(maBenhNhan);
-                
+
                 controller.themBenhNhan(maHoSoBenhNhan, ngayKham, trieuChung, chanDoan, maBacSi, maBacSi, ghiChu, ngayTaiKham, maBenhNhan);
-                        
+
                 // Tìm Tên Bác Sỹ Dựa vào mã Bác Sỹ
                 String tenBacSi = controller.findTenBacSiByMa(maBacSi);
-          
-                boolean valid = controller.saveToHoSoBenhNhanFile(maHoSoBenhNhan, ngayKham, trieuChung, chanDoan, tenBacSi, maBacSi, ghiChu, ngayTaiKham, maBenhNhan);                                         
+
+                boolean valid = controller.saveToHoSoBenhNhanFile(maHoSoBenhNhan, ngayKham, trieuChung, chanDoan, tenBacSi, maBacSi, ghiChu, ngayTaiKham, maBenhNhan);
                 if (valid) {
                     // Thêm thông tin vào bảng benhAnTable
                     DefaultTableModel model = (DefaultTableModel) benhAnTable.getModel();
@@ -272,6 +287,8 @@ public class TabHoSoBenhNhan {
             }
             controller.suaHoSoBenhNhan(maHoSoBenhNhan, ngayKham, trieuChung, chanDoan, maBacSi, ghiChu, ngayTaiKham, maBenhNhan);
             bindData();
+            tenBacSiTextField.setText(controller.findTenBacSiByMa(maBacSi));
+            tenBNLabel.setText(controller.findTenBenhNhanByMaBenhNhan(maBenhNhan));
         });
     }
 
@@ -296,6 +313,9 @@ public class TabHoSoBenhNhan {
                         model.removeRow(selectedIndex);
 
                         JOptionPane.showMessageDialog(null, "Xóa bệnh án thành công!");
+                        
+                        //cập nhật textfield
+                        resetTextField();
                     } else {
                         JOptionPane.showMessageDialog(null, "Không tìm thấy hồ sơ bệnh nhân với mã: " + maHoSoBenhNhan);
                     }

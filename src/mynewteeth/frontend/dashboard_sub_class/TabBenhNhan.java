@@ -108,6 +108,15 @@ public class TabBenhNhan {
         });
     }
 
+    private void resetTextField() {
+        maBNTextField.setText("");
+        tenBNTextField.setText("");
+        gioiTinhBnTextField.setText("");
+        ngaySinhBNTextField.setText("");
+        queQuanBNTextField.setText("");
+        dienThoaiBNTextField.setText("");
+    }
+
     private void handAddingAction() {
         themBNButton.addActionListener((e) -> {
             System.out.println("Add a new patient !");
@@ -168,7 +177,7 @@ public class TabBenhNhan {
 
             String maBenhNhan = (String) benhNhanTable.getValueAt(selectedRow, 0);
 
-            DialogProvider.showConfirmDialog("Bạn chắc chắn muốn xóa bệnh nhân này?", "Cảnh báo!","", new IOptionDialogAction() {
+            DialogProvider.showConfirmDialog("Bạn chắc chắn muốn xóa bệnh nhân này?", "Cảnh báo!", "", new IOptionDialogAction() {
                 @Override
                 public void onYesOption(Object object) {
                     // Xử lý logic xóa bệnh nhân
@@ -178,6 +187,7 @@ public class TabBenhNhan {
                         DialogProvider.showMessageDialog("Xóa bệnh nhân thành công!", "Thông báo!");
                         // Cập nhật lại bảng
                         bindData();
+                        resetTextField();
                         callback.onUpdate(maBenhNhan);
                     } else {
                         DialogProvider.showMessageDialog("Có lỗi xảy ra, vui lòng thử lại!", "Thông báo");
@@ -235,7 +245,7 @@ public class TabBenhNhan {
                 bindData();
                 callback.onUpdate(updatedBenhNhan);
             } else {
-                
+
             }
         });
 
