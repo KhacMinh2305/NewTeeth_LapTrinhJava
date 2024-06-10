@@ -269,6 +269,20 @@ public class TabHoSoBenhNhan {
         });
     }
 
+    private void updateBenhAnTable(String maHoSoBenhNhan, String tenBenhNhan, String ngayKham, String tenBacSi) {
+        DefaultTableModel model = (DefaultTableModel) benhAnTable.getModel();
+        // Tìm dòng cần cập nhật
+        for (int i = 0; i < model.getRowCount(); i++) {
+            if (model.getValueAt(i, 0).equals(maHoSoBenhNhan)) {
+                // Cập nhật thông tin cho dòng tương ứng trong bảng
+                model.setValueAt(tenBenhNhan, i, 1); // Tên bệnh nhân
+                model.setValueAt(ngayKham, i, 2); // Ngày khám
+                model.setValueAt(tenBacSi, i, 3); // Tên bác sĩ
+                break;
+            }
+        }
+    }
+    
     //sửa hồ sơ bệnh nhân theo mã hồ sơ 
     private void handleUpdatingAction() {
         capNhatBAButton.addActionListener(e -> {
@@ -289,6 +303,7 @@ public class TabHoSoBenhNhan {
             bindData();
             tenBacSiTextField.setText(controller.findTenBacSiByMa(maBacSi));
             tenBNLabel.setText(controller.findTenBenhNhanByMaBenhNhan(maBenhNhan));
+            updateBenhAnTable(maHoSoBenhNhan, controller.findTenBenhNhanByMaBenhNhan(maBenhNhan), ngayKham, controller.findTenBacSiByMa(maBacSi));
         });
     }
 
