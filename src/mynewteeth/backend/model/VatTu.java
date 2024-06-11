@@ -25,7 +25,14 @@ public class VatTu {
     }
 
     public void setMaVatTu(String maVatTu) {
-        this.maVatTu = maVatTu;
+        try {
+            if (maVatTu == null || maVatTu.trim().isEmpty()) {
+                throw new IllegalArgumentException("Mã vật tư không được để trống");
+            }
+            this.maVatTu = maVatTu;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public String getTenVatTu() {
@@ -33,7 +40,14 @@ public class VatTu {
     }
 
     public void setTenVatTu(String tenVatTu) {
-        this.tenVatTu = tenVatTu;
+        try {
+            if (tenVatTu == null || tenVatTu.trim().isEmpty()) {
+                throw new IllegalArgumentException("Tên vật tư không được để trống");
+            }
+            this.tenVatTu = tenVatTu;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public String getLoai() {
@@ -41,7 +55,14 @@ public class VatTu {
     }
 
     public void setLoai(String loai) {
-        this.loai = loai;
+        try {
+            if (loai == null || loai.trim().isEmpty()) {
+                throw new IllegalArgumentException("Loại không được để trống");
+            }
+            this.loai = loai;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public String getTinhTrang() {
@@ -49,7 +70,14 @@ public class VatTu {
     }
 
     public void setTinhTrang(String tinhTrang) {
-        this.tinhTrang = tinhTrang;
+        try {
+            if (tinhTrang == null || tinhTrang.trim().isEmpty()) {
+                throw new IllegalArgumentException("Tình trạng không được để trống");
+            }
+            this.tinhTrang = tinhTrang;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public String getGiaNhap() {
@@ -57,7 +85,14 @@ public class VatTu {
     }
 
     public void setGiaNhap(String giaNhap) {
-        this.giaNhap = giaNhap;
+        try {
+            if (giaNhap == null || !giaNhap.matches("\\d+(\\.\\d+)?")) {
+                throw new IllegalArgumentException("Giá nhập phải là số");
+            }
+            this.giaNhap = giaNhap;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Date getNgayNhap() {
@@ -65,7 +100,14 @@ public class VatTu {
     }
 
     public void setNgayNhap(Date ngayNhap) {
-        this.ngayNhap = ngayNhap;
+        try {
+            if (ngayNhap == null || ngayNhap.after(new Date())) {
+                throw new IllegalArgumentException("Ngày nhập phải là ngày trong quá khứ và không được để trống");
+            }
+            this.ngayNhap = ngayNhap;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public int getSoLuong() {
@@ -73,7 +115,14 @@ public class VatTu {
     }
 
     public void setSoLuong(int soLuong) {
-        this.soLuong = soLuong;
+        try {
+            if (soLuong < 0) {
+                throw new IllegalArgumentException("Số lượng không thể âm");
+            }
+            this.soLuong = soLuong;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public double getGiaTien() {
@@ -90,9 +139,9 @@ public class VatTu {
         this.tenVatTu = tenVatTu;
         this.loai = loai;
         this.tinhTrang = tinhTrang;
+        this.giaNhap = giaNhap;
         this.ngayNhap = ngayNhap;
         this.soLuong = soLuong;
-        this.giaNhap = giaNhap;
     }
 
     @Override
@@ -101,5 +150,10 @@ public class VatTu {
     }
 
     public VatTu() {
+        try {
+            // Default constructor logic if any
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

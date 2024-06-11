@@ -2575,9 +2575,9 @@
                         <Column editable="false" title="T&#xea;n v&#x1ead;t t&#x1b0;" type="java.lang.String"/>
                         <Column editable="false" title="Lo&#x1ea1;i" type="java.lang.String"/>
                         <Column editable="false" title="T&#xec;nh tr&#x1ea1;ng" type="java.lang.String"/>
-                        <Column editable="false" title="Gi&#xe1; nh&#x1ead;p" type="java.lang.Double"/>
+                        <Column editable="false" title="Gi&#xe1; nh&#x1ead;p" type="java.lang.String"/>
                         <Column editable="false" title="Ng&#xe0;y nh&#x1ead;p" type="java.lang.String"/>
-                        <Column editable="true" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng" type="java.lang.Integer"/>
+                        <Column editable="true" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng" type="java.lang.String"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -2671,6 +2671,9 @@
                   <Color blue="66" green="33" red="0" type="rgb"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="loaiVatTuTextFieldActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="vatTuTextField">
               <Properties>
@@ -2683,6 +2686,9 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="33" red="0" type="rgb"/>
                 </Property>
+                <Property name="focusCycleRoot" type="boolean" value="true"/>
+                <Property name="focusTraversalPolicyProvider" type="boolean" value="true"/>
+                <Property name="name" type="java.lang.String" value="" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="tenVatTuTextField">
@@ -2800,6 +2806,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="themVTButtonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="capNhatVatTuButton">
               <Properties>
@@ -2818,6 +2827,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="capNhatVatTuButtonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="timKiemVatTuButton">
               <Properties>

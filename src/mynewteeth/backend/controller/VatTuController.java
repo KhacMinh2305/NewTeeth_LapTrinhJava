@@ -5,35 +5,107 @@
 package mynewteeth.backend.controller;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 import mynewteeth.backend.model.VatTu;
 
-/**
- *
- * @author PC
- */
 public class VatTuController {
 
     private List<VatTu> danhSachVatTu;
 
     public VatTuController() {
-        danhSachVatTu = new ArrayList<>();
+        this.danhSachVatTu = new ArrayList<>(); // Khởi tạo danhSachVatTu
     }
 
-   
+    public List<VatTu> getDanhSachVatTu() {
+        return danhSachVatTu;
+    }
+
+    public List<VatTu> getDanhSachVatTuSafe() {
+        try {
+            return getDanhSachVatTu();
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Or handle the exception as needed
+            return new ArrayList<>(); // Return an empty list if an exception occurs
+        }
+    }
+
+    public void setDanhSachVatTu(List<VatTu> danhSachVatTu) {
+        this.danhSachVatTu = danhSachVatTu;
+    }
+
+    public VatTuController(List<VatTu> danhSachVatTu) {
+        this.danhSachVatTu = danhSachVatTu;
+    }
+
+    public void MaVatTuExists(String maVatTu) throws Exception {
+        // Kiểm tra mã vật tư theo regex
+        if (!maVatTu.matches("^VT\\d+$")) {
+            throw new Exception("Mã vật tư không hợp lệ. Phải có định dạng 'MVT' + số thứ tự mã.");
+        }
+
+        for (VatTu vt : danhSachVatTu) {
+            if (vt.getMaVatTu().equals(maVatTu)) {
+                throw new Exception("Mã vật tư đã tồn tại, vui lòng nhập lại.");
+            }
+        }
+    }
+
+    public boolean addVatTu(VatTu vatTu) {
+        try {
+            MaVatTuExists(vatTu.getMaVatTu());
+            danhSachVatTu.add(vatTu);
+            appendToFile(vatTu);
+
+            return true;
+        } catch (Exception e) {
+            // Xử lý ngoại lệ nếu có lỗi xảy ra
+            e.printStackTrace(); // In stack trace để phát hiện và sửa lỗi
+            javax.swing.JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi thêm vật tư: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public void appendToFile(VatTu vatTu) {
+        String fileName = "src/mynewteeth/backend/data_repository/local_data/raw_data/VatTu.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String ngayNhapStr = sdf.format(vatTu.getNgayNhap());
+            String line = vatTu.getMaVatTu() + "#"
+                    + vatTu.getTenVatTu() + "#"
+                    + vatTu.getLoai() + "#"
+                    + vatTu.getTinhTrang() + "#"
+                    + vatTu.getGiaNhap() + "#"
+                    + ngayNhapStr + "#"
+                    + vatTu.getSoLuong();
+            writer.write(line);
+            writer.newLine(); // Move to the next line for the next item
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void loadFromFile(String fileName) {
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");  // Định dạng ngày tháng
-            while ((line = br.readLine()) != null) {
+        try {
+            File file = new File(fileName);
+            Scanner scanner = new Scanner(file);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
                 String[] parts = line.split("#");
-                if (parts.length == 7) { // Số lượng thuộc tính trong một dòng
+                if (parts.length == 7) {
                     String maVatTu = parts[0];
                     String tenVatTu = parts[1];
                     String loai = parts[2];
@@ -41,24 +113,71 @@ public class VatTuController {
                     String giaNhap = parts[4];
                     Date ngayNhap = sdf.parse(parts[5]);
                     int soLuong = Integer.parseInt(parts[6]);
-
-                    // Tạo đối tượng VatTu và thêm vào danh sách
-                    VatTu vatTu = new VatTu(maVatTu, tenVatTu, loai, tinhTrang,giaNhap, ngayNhap, soLuong);
+                    VatTu vatTu = new VatTu(maVatTu, tenVatTu, loai, tinhTrang, giaNhap, ngayNhap, soLuong);
+                    vatTu.setGiaNhap(giaNhap); // Set giaNhap separately to include validation
                     danhSachVatTu.add(vatTu);
                 } else {
                     System.out.println("Error: Invalid data format in file");
                 }
             }
-        } catch (IOException e) {
+            scanner.close();
+        } catch (FileNotFoundException e) {
             System.out.println("File not found: " + e.getMessage());
         } catch (ParseException e) {
             System.out.println("Parse exception: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Number format exception: " + e.getMessage());
         }
     }
 
-    public List<VatTu> getDanhSachVatTu() {
-        return danhSachVatTu;
+    private void updateFile() {
+        String fileName = "src/mynewteeth/backend/data_repository/local_data/raw_data/VatTu.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            for (VatTu vatTu : danhSachVatTu) {
+                String ngayNhapStr = sdf.format(vatTu.getNgayNhap());
+                String line = vatTu.getMaVatTu() + "#"
+                        + vatTu.getTenVatTu() + "#"
+                        + vatTu.getLoai() + "#"
+                        + vatTu.getTinhTrang() + "#"
+                        + vatTu.getGiaNhap() + "#"
+                        + ngayNhapStr + "#"
+                        + vatTu.getSoLuong();
+                writer.write(line);
+                writer.newLine(); // Move to the next line for the next item
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    //Tôi cần danh sách vật tư lên tạo trước, anh em nào làm phần này xin đừng đổi tên biến danh sách nhé.
+    public boolean removeVatTuByMa(String maVatTu) {
+        boolean found = false;
+        for (VatTu vt : danhSachVatTu) {
+            if (vt.getMaVatTu().equals(maVatTu)) {
+                danhSachVatTu.remove(vt);
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            updateFile();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean updateVatTu(VatTu updatedVatTu) {
+        for (int i = 0; i < danhSachVatTu.size(); i++) {
+            if (danhSachVatTu.get(i).getMaVatTu().equals(updatedVatTu.getMaVatTu())) {
+                danhSachVatTu.set(i, updatedVatTu);
+                updateFile();
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

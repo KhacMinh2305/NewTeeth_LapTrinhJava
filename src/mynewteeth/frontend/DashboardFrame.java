@@ -1577,7 +1577,7 @@ public class DashboardFrame extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, true
@@ -1616,10 +1616,18 @@ public class DashboardFrame extends javax.swing.JFrame {
         loaiVatTuTextField.setBackground(new java.awt.Color(204, 204, 255));
         loaiVatTuTextField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         loaiVatTuTextField.setForeground(new java.awt.Color(0, 51, 102));
+        loaiVatTuTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loaiVatTuTextFieldActionPerformed(evt);
+            }
+        });
 
         vatTuTextField.setBackground(new java.awt.Color(204, 204, 255));
         vatTuTextField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         vatTuTextField.setForeground(new java.awt.Color(0, 51, 102));
+        vatTuTextField.setFocusCycleRoot(true);
+        vatTuTextField.setFocusTraversalPolicyProvider(true);
+        vatTuTextField.setName(""); // NOI18N
 
         tenVatTuTextField.setBackground(new java.awt.Color(204, 204, 255));
         tenVatTuTextField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -1657,11 +1665,21 @@ public class DashboardFrame extends javax.swing.JFrame {
         themVTButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         themVTButton.setText("Thêm vật tư");
         themVTButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 204, 255), 2, true));
+        themVTButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                themVTButtonActionPerformed(evt);
+            }
+        });
 
         capNhatVatTuButton.setBackground(new java.awt.Color(225, 232, 239));
         capNhatVatTuButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         capNhatVatTuButton.setText("Cập nhật TT VT");
         capNhatVatTuButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 204, 255), 2, true));
+        capNhatVatTuButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                capNhatVatTuButtonActionPerformed(evt);
+            }
+        });
 
         timKiemVatTuButton.setBackground(new java.awt.Color(225, 232, 239));
         timKiemVatTuButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -2501,6 +2519,18 @@ public class DashboardFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void themVTButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themVTButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_themVTButtonActionPerformed
+
+    private void capNhatVatTuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capNhatVatTuButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_capNhatVatTuButtonActionPerformed
+
+    private void loaiVatTuTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loaiVatTuTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_loaiVatTuTextFieldActionPerformed
 
     public javax.swing.JTabbedPane getTabbedPane() {
         return dashboardTabPane;

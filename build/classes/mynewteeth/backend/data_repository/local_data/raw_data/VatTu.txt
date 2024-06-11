@@ -1,20 +1,11 @@
-VT001#Thuốc giảm đau#Kháng sinh#Tốt#3000000#01/01/2023#100
-VT002#Thuốc kháng viêm#Kháng viêm#Tốt#3000000#05/02/2023#150
-VT003#Thuốc tê#Gây tê#Tốt#3000000#10/03/2023#200
-VT004#Thuốc cầm máu#Cầm máu#Tốt#3000000#15/04/2023#120
-VT005#Thuốc kháng sinh#Kháng sinh#Tốt#3000000#20/05/2023#180
-VT006#Thuốc chống viêm#Kháng viêm#Tốt#3000000#25/06/2023#160
-VT007#Thuốc sát khuẩn#Sát khuẩn#Tốt#3000000#30/07/2023#140
-VT008#Thuốc giảm sưng#Kháng viêm#Tốt#4000000#04/08/2023#130
-VT009#Thuốc giảm đau mạnh#Kháng sinh#4000000#Tốt#08/09/2023#110
-VT010#Thuốc chống dị ứng#Kháng sinh#Tốt#4000000#12/10/2023#170
-VT011#Thuốc gây tê#Gây tê#Tốt#4000000#16/11/2023#190
-VT012#Thuốc giảm đau nhanh#Kháng sinh#Tốt#4000000#20/12/2023#210
-VT013#Thuốc chống viêm mạnh#Kháng viêm#Tốt#4000000#24/01/2024#220
-VT014#Thuốc cầm máu nhanh#Cầm máu#Tốt#5000000#28/02/2024#130
-VT015#Thuốc kháng viêm hiệu quả#Kháng viêm#Tốt#5000000#03/03/2024#150
-VT016#Thuốc khử trùng#Sát khuẩn#Tốt#5000000#07/04/2024#140
-VT017#Thuốc chống sưng#Kháng viêm#Tốt#5000000#11/05/2024#160
-VT018#Thuốc giảm đau kéo dài#Kháng sinh#Tốt#5000000#15/06/2024#180
-VT019#Thuốc kháng viêm tức thì#Kháng viêm#Tốt#5000000#19/07/2024#200
-VT020#Thuốc tê nhanh#Gây tê#Tốt#5000000#23/08/2024#170
+VT002#Ghế nha khoa#Đồ nội thất#Mới#3500000#2024-06-02#4
+VT003#Máy chụp X-quang#Thiết bị y tế#Mới#15000000#2024-06-03#1
+VT004#Kính lúp#Dụng cụ nha khoa#Cũ#1000000#2024-06-04#5
+VT005#Găng tay y tế#Vật liệu tiêu hao#Mới#200000#2024-06-05#100
+VT006#Máy hút tảo#Thiết bị y tế#Mới#7000000#2024-06-06#1
+VT007#Dây nha khoa#Vật liệu tiêu hao#Mới#50000#2024-06-07#50
+VT008#Gương nha khoa#Đồ nội thất123#Mới#2000000#2024-06-08#3
+VT009#Đèn nha khoa#Thiết bị y tế#Mới#2500000#2024-06-09#2
+VT010#Kem phục hồi răng#Thuốc và hóa chất#Mới#300000#2024-06-10#20
+VT001#Bàn khám#Đồ nội thất#Mới#5000000#2024-06-01#2
+VT011#Bàn khám#Gia dụng#Mới#5000000#2024-06-01#2

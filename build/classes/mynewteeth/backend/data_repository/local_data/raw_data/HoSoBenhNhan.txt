@@ -30,3 +30,4 @@ BA034#13/05/2017#Đau đầu#Áp lực công việc#Nguyễn Thị HH#BS034#Thư
 BA035#22/10/2020#Đau chân#Chấn thương#Phạm Văn II#BS035#Nghỉ ngơi hợp lý#27/10/2020#BN035
 BA036#18/01/2019#Đau lưng#Viêm cơ#Trần Văn JJ#BS036#Vận động nhẹ nhàng#23/01/2019#BN036
 BA037#07/02/2023#Đau ngực#Viêm màng ngoài tim#Lăng Tiểu Lệ#BS001#Uống thuốc đúng giờ#12/02/2023#BN036
+BA016#20/06/2021#Đau cổ#Thoái hóa đốt sống cổ#Phùng Thị P#BS016#Vận động nhẹ nhàng#25/06/2021#BN018
