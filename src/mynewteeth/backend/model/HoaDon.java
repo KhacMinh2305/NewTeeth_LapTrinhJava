@@ -20,9 +20,11 @@ public class HoaDon {
     private ArrayList<VatTu> vatTu;
     private double tongTien;
 
+    // Constructor không đối
     public HoaDon() {
     }
     
+    // Constructor đầy đủ
     public HoaDon(String soHoaDon, Date ngayKham, ArrayList<DichVu> dichVu, ArrayList<VatTu> vatTu, double tongTien) {
         this.soHoaDon = soHoaDon;
         this.ngayKham = ngayKham;
@@ -31,6 +33,7 @@ public class HoaDon {
         this.tongTien = tongTien;
     }
 
+    // Getters và setters cho tất cả các thuộc tính
     public HoaDon(String soHoaDon, Date ngayKham, Double tongTien) {
         this.soHoaDon = soHoaDon;
         this.ngayKham = ngayKham;

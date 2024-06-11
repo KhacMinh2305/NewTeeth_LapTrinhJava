@@ -33,6 +33,7 @@ public class HoaDonController {
         this.danhSachHoaDon = new ArrayList<>();
     }
 
+    //Thêm mới một hóa đơn
     public boolean addHoaDon(HoaDon hoaDon) {
         try {
             hoaDon.SoHoaDonNull();
@@ -46,6 +47,7 @@ public class HoaDonController {
         }
     }
 
+    //Ghi hóa đơn vào file HoaDon.txt
     private void appendToFile(HoaDon hoaDon) {
         String fileName = "src/mynewteeth/backend/data_repository/local_data/raw_data/HoaDon.txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
@@ -60,6 +62,7 @@ public class HoaDonController {
         }
     }
 
+    //Lấy dữ liệu từ file
     public void loadFromFile(String fileName) {
         try {
             File file = new File(fileName);
@@ -67,12 +70,14 @@ public class HoaDonController {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] parts = line.split("#");
-                if (parts.length == 4) {
+                if (parts.length == 6) {
                     String soHoaDon = parts[0];
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     Date ngayKham = sdf.parse(parts[1]);
                     String tenBenhNhan = parts[2];
-                    double tongTien = Double.valueOf(parts[3]);
+                    String dichVu = parts[3];
+                    String vatTu = parts[4];
+                    double tongTien = Double.valueOf(parts[5]);
                     HoaDon hoaDon = new HoaDon(soHoaDon, ngayKham, tongTien);
                     danhSachHoaDon.add(hoaDon);
                 }
@@ -85,6 +90,7 @@ public class HoaDonController {
         }
     }
 
+    //Cập nhật file
     private void updateFile() {
         String fileName = "src/mynewteeth/backend/data_repository/local_data/raw_data/HoaDon.txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
@@ -101,7 +107,8 @@ public class HoaDonController {
         }
     }
 
-    public boolean removeBenhNhanByMa(String soHoaDon) {
+    //Xóa hóa đơn bằng số hóa đơn
+    public boolean removeHoaDonBySo(String soHoaDon) {
         boolean found = false;
         for (HoaDon hoaDon : danhSachHoaDon) {
             if (hoaDon.getSoHoaDon().equals(soHoaDon)) {
@@ -119,7 +126,8 @@ public class HoaDonController {
         }
     }
 
-    public boolean updateBenhNhan(HoaDon updatedHoaDon) {
+    //Cập nhật hóa đơn
+    public boolean updateHoaDon(HoaDon updatedHoaDon) {
         for (int i = 0; i < danhSachHoaDon.size(); i++) {
             if (danhSachHoaDon.get(i).getSoHoaDon().equals(updatedHoaDon.getSoHoaDon())) {
                 danhSachHoaDon.set(i, updatedHoaDon);
@@ -128,5 +136,16 @@ public class HoaDonController {
             }
         }
         return false;
+    }
+    
+    //Tìm hóa đơn bằng số hóa đơn
+    public HoaDon findHoaDonBySo(String soHoaDon) {
+        HoaDon newHoaDon = new HoaDon();
+        for (HoaDon hoaDon : danhSachHoaDon) {
+            if (hoaDon.getSoHoaDon().equals(soHoaDon)) {
+                newHoaDon = hoaDon;
+            }
+        }
+        return newHoaDon;
     }
 }
