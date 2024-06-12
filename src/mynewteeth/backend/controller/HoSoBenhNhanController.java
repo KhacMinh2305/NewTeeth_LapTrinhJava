@@ -24,6 +24,7 @@ import mynewteeth.backend.interfaces.InvalidMaHoSoBenhNhanException;
 import mynewteeth.backend.model.BacSi;
 import mynewteeth.backend.model.BenhNhan;
 import mynewteeth.backend.model.HoSoBenhNhan;
+import mynewteeth.backend.model.Thuoc;
 import mynewteeth.backend.model.VatTu;
 
 /**
@@ -36,18 +37,25 @@ public class HoSoBenhNhanController {
     private List<BenhNhan> benhNhanConTroller;
     private List<VatTu> vaTuConTroller;
     private List<BacSi> bacSiController;
+    private List<Thuoc> thuocController;
     public String file_vatTu = "src/mynewteeth/backend/data_repository/local_data/raw_data/VatTu.txt";
     public String file_bacSi = "src/mynewteeth/backend/data_repository/local_data/raw_data/BacSi.txt";
     public String file_benhNhan = "src/mynewteeth/backend/data_repository/local_data/raw_data/BenhNhan.txt";
-    
+    public String file_thuoc = "src/mynewteeth/backend/data_repository/local_data/raw_data/Thuoc.txt";
     public HoSoBenhNhanController() {
         danhSachHoSoBenhNhan = new ArrayList<>();
         vaTuConTroller = new ArrayList<>();
         benhNhanConTroller = new ArrayList<>();
         bacSiController = new ArrayList<>();
+        thuocController = new ArrayList<>();
         loadFromFile_benhnhan(file_benhNhan);
         loadFromFile_bacsi(file_bacSi);
         loadFromFile_vattu(file_vatTu);
+        loadFromFile_thuoc(file_thuoc);
+    }
+
+    public List<Thuoc> getThuocController() {
+        return thuocController;
     }
 
     public List<HoSoBenhNhan> getDanhSachHoSoBenhNhan() {
@@ -65,7 +73,7 @@ public class HoSoBenhNhanController {
     public List<BacSi> getBacSiController() {
         return bacSiController;
     }
-
+    
     public void setDanhSachHoSoBenhNhan(List<HoSoBenhNhan> danhSachHoSoBenhNhan) {
         this.danhSachHoSoBenhNhan = danhSachHoSoBenhNhan;
     }
@@ -170,7 +178,26 @@ public class HoSoBenhNhanController {
         }
     }
 
-
+     public void loadFromFile_thuoc(String fileName) {
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;          
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("#");
+                if (parts.length == 2) {
+                    String maBenhNhan = parts[0];
+                    String maVatTu = parts[1];       
+                    // Tạo đối tượng VatTu và thêm vào danh sách
+                    Thuoc thuoc = new Thuoc(maBenhNhan, maVatTu);
+                    thuocController.add(thuoc);
+                } else {
+                    System.out.println("Error: Invalid data format in file");
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("File not found: " + e.getMessage());
+        } 
+    }
+     
     public String findTenBenhNhanByMaBenhNhan(String maBenhNhan) {
         String filePath = "src/mynewteeth/backend/data_repository/local_data/raw_data/BenhNhan.txt";
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -184,7 +211,7 @@ public class HoSoBenhNhanController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null; // Trả về null nếu không tìm thấy mã Bệnh Nhân
+        return null; 
     }
 
      public HoSoBenhNhan findHoSoBenhNhanByMa(String maHoSoBenhNhan) {
@@ -231,7 +258,7 @@ public class HoSoBenhNhanController {
         }
         return newBacSi;
     }
-    public void themBenhNhan(String maHoSoBenhNhan, String ngayKham, String trieuChung, String chanDoan, String tenBacSi, String maBacSi, String ghiChu, String ngayTaiKham, String maBenhNhan) {
+    public boolean themBenhNhan(String maHoSoBenhNhan, String ngayKham, String trieuChung, String chanDoan, String tenBacSi, String maBacSi, String ghiChu, String ngayTaiKham, String maBenhNhan) {
         try {
             MaBenhAnExists(maHoSoBenhNhan);
             BacSi bacSi = findBacSiByMa(maBacSi);
@@ -258,9 +285,10 @@ public class HoSoBenhNhanController {
                     trieuChung, chanDoan, "", ngayTaiKhamDate, ghiChu, 0, listVatTu);
 
             danhSachHoSoBenhNhan.add(h);
-
+            return true;
         } catch (InvalidMaHoSoBenhNhanException e) {
             javax.swing.JOptionPane.showMessageDialog(null, e.getMessage());
+            return false;
         }
     }
 

@@ -69,50 +69,65 @@ public class TabVatTu {
     }
 
     private void bindData() {
-        // Lấy dữ liệu đã được load từ Controller lên rồi đổ vào UI
-        List<VatTu> danhSachVatTu = controller.getDanhSachVatTuSafe();
+    // Lấy dữ liệu đã được load từ Controller lên rồi đổ vào UI
+    List<VatTu> danhSachVatTu = controller.getDanhSachVatTuSafe();
 
-        // Ví dụ: Giả sử mô hình của bảng là DefaultTableModel
-        DefaultTableModel model = (DefaultTableModel) vatTuTable.getModel();
+    // Ví dụ: Giả sử mô hình của bảng là DefaultTableModel
+    DefaultTableModel model = (DefaultTableModel) vatTuTable.getModel();
 
-        // Xóa dữ liệu cũ trong bảng (nếu có)
-        model.setRowCount(0);
+    // Xóa dữ liệu cũ trong bảng (nếu có)
+    model.setRowCount(0);
 
-        // Thêm từng vật tư vào bảng
-        for (VatTu vatTu : danhSachVatTu) {
-            Object[] rowData = {
-                vatTu.getMaVatTu(),
-                vatTu.getTenVatTu(),
-                vatTu.getLoai(),
-                vatTu.getTinhTrang(),
-                vatTu.getGiaNhap(),
-                vatTu.getNgayNhap(),
-                vatTu.getSoLuong()
-            };
-            model.addRow(rowData);
+    // Định dạng ngày nhập
+    SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+
+    // Thêm từng vật tư vào bảng
+    for (VatTu vatTu : danhSachVatTu) {
+        // Chuyển ngày nhập sang định dạng xx/yy/zzzz
+        String ngayNhapFormatted = "";
+        Date ngayNhap = vatTu.getNgayNhap();
+        if (ngayNhap != null) {
+            ngayNhapFormatted = dateFormatter.format(ngayNhap);
         }
+
+        Object[] rowData = {
+            vatTu.getMaVatTu(),
+            vatTu.getTenVatTu(),
+            vatTu.getLoai(),
+            vatTu.getTinhTrang(),
+            vatTu.getGiaNhap(),
+            ngayNhapFormatted,  // Sử dụng ngày nhập đã định dạng
+            vatTu.getSoLuong()
+        };
+        model.addRow(rowData);
     }
+}
 
     private void handleTableBehavior() {
-        // Xử lý sự kiện liên quan đến bảng : Khi click vào 1 ròng trên bảng => Lấy dữ liệu dòng đó đưa vào các text field
-        vatTuTable.getSelectionModel().addListSelectionListener(event -> {
-            int selectedRow = vatTuTable.getSelectedRow();
-            if (selectedRow != -1) {
-                vatTuTextField.setText((String) vatTuTable.getValueAt(selectedRow, 0));
-                tenVatTuTextField.setText((String) vatTuTable.getValueAt(selectedRow, 1));
-                loaiVatTuTextField.setText((String) vatTuTable.getValueAt(selectedRow, 2));
-                tinhTrangVatTuTextField.setText((String) vatTuTable.getValueAt(selectedRow, 3));
-                giaNhapVatTuTextField.setText(String.valueOf(vatTuTable.getValueAt(selectedRow, 4)));
+    // Xử lý sự kiện liên quan đến bảng: Khi click vào 1 dòng trên bảng => Lấy dữ liệu dòng đó đưa vào các text field
+    vatTuTable.getSelectionModel().addListSelectionListener(event -> {
+        int selectedRow = vatTuTable.getSelectedRow();
+        if (selectedRow != -1) {
+            vatTuTextField.setText((String) vatTuTable.getValueAt(selectedRow, 0));
+            tenVatTuTextField.setText((String) vatTuTable.getValueAt(selectedRow, 1));
+            loaiVatTuTextField.setText((String) vatTuTable.getValueAt(selectedRow, 2));
+            tinhTrangVatTuTextField.setText((String) vatTuTable.getValueAt(selectedRow, 3));
+            giaNhapVatTuTextField.setText(String.valueOf(vatTuTable.getValueAt(selectedRow, 4)));
 
-                // Lấy giá trị Date và chuyển đổi thành String
-                Date ngayNhapDate = (Date) vatTuTable.getValueAt(selectedRow, 5);
-                String ngayNhapStr = new SimpleDateFormat("dd/MM/yyyy").format(ngayNhapDate);
+            // Lấy giá trị ngày nhập, kiểm tra kiểu dữ liệu và chuyển đổi thành String nếu cần
+            Object ngayNhapObj = vatTuTable.getValueAt(selectedRow, 5);
+            if (ngayNhapObj instanceof Date) {
+                String ngayNhapStr = new SimpleDateFormat("dd/MM/yyyy").format((Date) ngayNhapObj);
                 ngayNhapVatTuTextField.setText(ngayNhapStr);
-
-                soLuongVatTuTextField.setText(String.valueOf(vatTuTable.getValueAt(selectedRow, 6)));
+            } else if (ngayNhapObj instanceof String) {
+                ngayNhapVatTuTextField.setText((String) ngayNhapObj);
             }
-        });
-    }
+
+            soLuongVatTuTextField.setText(String.valueOf(vatTuTable.getValueAt(selectedRow, 6)));
+        }
+    });
+}
+
 
     private void handAddingAction() {
         themVTButton.addActionListener((e) -> {

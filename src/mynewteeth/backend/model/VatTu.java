@@ -7,7 +7,7 @@ public class VatTu {
     private String tenVatTu;
     private String loai;
     private String tinhTrang;
-    private double giaNhap; // Đổi sang double
+    private double giaNhap; 
     private Date ngayNhap;
     private int soLuong;
 

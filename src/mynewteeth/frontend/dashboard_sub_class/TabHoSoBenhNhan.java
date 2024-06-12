@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package mynewteeth.frontend.dashboard_sub_class;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -18,7 +19,9 @@ import mynewteeth.backend.controller.HoSoBenhNhanController;
 import mynewteeth.backend.model.BacSi;
 import mynewteeth.backend.model.BenhNhan;
 import mynewteeth.backend.model.HoSoBenhNhan;
+import mynewteeth.backend.model.Thuoc;
 import mynewteeth.backend.model.VatTu;
+
 /**
  *
  * @author Us
@@ -46,7 +49,7 @@ public class TabHoSoBenhNhan {
     private JButton themBAButton;
     private HoSoBenhNhanController controller;
 
-   public TabHoSoBenhNhan(JTextField maBATextField, JTextField ngayKhamTextField, JTextField trieuChungTextField, JTextField chanDoanTextField, JTextField tenBacSiTextField, JTextField maBacSiTextField, JTextField ghiChuTextField, JTextField ngayTaiKhamTextField, JTextField maBenhNhanTextField, JLabel tenBNLabel, JLabel gioiTinhBNLabel, JLabel ngaySinhBNLabel, JLabel dienThoaiBNLabel, JTable thuocKeDonTable, JTable benhAnTable, JButton timKiemBAButton, JButton capNhatBAButton, JButton xoaBAButton, JButton themBAButton) {
+    public TabHoSoBenhNhan(JTextField maBATextField, JTextField ngayKhamTextField, JTextField trieuChungTextField, JTextField chanDoanTextField, JTextField tenBacSiTextField, JTextField maBacSiTextField, JTextField ghiChuTextField, JTextField ngayTaiKhamTextField, JTextField maBenhNhanTextField, JLabel tenBNLabel, JLabel gioiTinhBNLabel, JLabel ngaySinhBNLabel, JLabel dienThoaiBNLabel, JTable thuocKeDonTable, JTable benhAnTable, JButton timKiemBAButton, JButton capNhatBAButton, JButton xoaBAButton, JButton themBAButton) {
         this.maBATextField = maBATextField;
         this.ngayKhamTextField = ngayKhamTextField;
         this.trieuChungTextField = trieuChungTextField;
@@ -81,11 +84,9 @@ public class TabHoSoBenhNhan {
     private void bindData() {
         List<HoSoBenhNhan> hsbn = controller.getDanhSachHoSoBenhNhan();
         DefaultTableModel model = (DefaultTableModel) benhAnTable.getModel();
-        DefaultTableModel model1 = (DefaultTableModel) thuocKeDonTable.getModel();
 
         // Xóa dữ liệu cũ trong bảng (nếu có)
         model.setRowCount(0);
-        model1.setRowCount(0);
 
         // Thêm từng bệnh nhân vào bảng
         for (HoSoBenhNhan hs : hsbn) {
@@ -96,16 +97,6 @@ public class TabHoSoBenhNhan {
                 hs.getBacSi().getHoTen()
             };
             model.addRow(rowData);
-        }
-        for (VatTu xx : controller.getVaTuConTroller()) {
-            Object[] rowData = {
-                xx.getMaVatTu(),
-                xx.getTenVatTu(),
-                xx.getLoai(),
-                xx.getSoLuong(),
-                //xx.getGiaTien()
-            };
-            model1.addRow(rowData);
         }
 
     }
@@ -141,15 +132,36 @@ public class TabHoSoBenhNhan {
                         ngaySinhBNLabel.setText(formattedNgaySinh);
                         ngayTaiKhamTextField.setText(fomattedNgayTaiKham);
                         ngayKhamTextField.setText(formattedNgayKham);
+
+                        //hiển thi thuốc vào bảng thuốc
+                        DefaultTableModel model1 = (DefaultTableModel) thuocKeDonTable.getModel();
+                        model1.setRowCount(0);
+                        for (Thuoc xx : controller.getThuocController()) {
+                            if (xx.getMaBenhNhan().equals(f.getBenhNhan().getMaBenhNhan())) {
+                                for (VatTu yy : controller.getVaTuConTroller()) {
+                                    if (xx.getMaVatTu().equals(yy.getMaVatTu())) {
+                                        Object[] rowData = {
+                                            yy.getMaVatTu(),
+                                            yy.getTenVatTu(),
+                                            yy.getLoai(),
+                                            yy.getSoLuong(),
+                                            yy.getGiaNhap() / yy.getSoLuong()
+                                        };
+                                        model1.addRow(rowData);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
+
         });
     }
 
     // Viết các hàm xử lý dữ liệu và xử lý sự kiện 
     // Hàm cập nhật dữ liệu từ các Tab khác - KHÔNG ĐƯỢC XÓA 
-   public void updateData(Object updatedObject) {
+    public void updateData(Object updatedObject) {
         if (updatedObject instanceof BenhNhan) {
             // Update logic for BenhNhan
         } else if (updatedObject instanceof BacSi) {
@@ -232,26 +244,23 @@ public class TabHoSoBenhNhan {
                 // Tìm tên Bệnh Nhân dựa vào mã Bệnh Nhân
                 String tenBenhNhan = controller.findTenBenhNhanByMaBenhNhan(maBenhNhan);
 
-                controller.themBenhNhan(maHoSoBenhNhan, ngayKham, trieuChung, chanDoan, maBacSi, maBacSi, ghiChu, ngayTaiKham, maBenhNhan);
+                boolean valid1 = controller.themBenhNhan(maHoSoBenhNhan, ngayKham, trieuChung, chanDoan, maBacSi, maBacSi, ghiChu, ngayTaiKham, maBenhNhan);
 
                 // Tìm Tên Bác Sỹ Dựa vào mã Bác Sỹ
                 String tenBacSi = controller.findTenBacSiByMa(maBacSi);
 
                 boolean valid = controller.saveToHoSoBenhNhanFile(maHoSoBenhNhan, ngayKham, trieuChung, chanDoan, tenBacSi, maBacSi, ghiChu, ngayTaiKham, maBenhNhan);
-                if (valid) {
+                if (valid&&valid1) {
                     // Thêm thông tin vào bảng benhAnTable
                     DefaultTableModel model = (DefaultTableModel) benhAnTable.getModel();
                     model.addRow(new Object[]{maHoSoBenhNhan, tenBenhNhan, ngayKham, tenBacSi});
-
-                    // Lưu thông tin vào file HoSoBenhNhan.txt
-                    // Hiển thị thông báo khi thêm thành công
                     JOptionPane.showMessageDialog(null, "Thêm bệnh án thành công!");
                 }
             }
         });
     }
 
-    private void updateBenhAnTable(String maHoSoBenhNhan, String tenBenhNhan, String ngayKham, String tenBacSi) {
+    private void updateBenhAnTable(String maHoSoBenhNhan, String tenBenhNhan, String ngayKham, String tenBacSi, String maBenhNhan) {
         DefaultTableModel model = (DefaultTableModel) benhAnTable.getModel();
         // Tìm dòng cần cập nhật
         for (int i = 0; i < model.getRowCount(); i++) {
@@ -263,8 +272,27 @@ public class TabHoSoBenhNhan {
                 break;
             }
         }
+        BenhNhan h = controller.findBenhNhanByMa(maBenhNhan);
+        DefaultTableModel model1 = (DefaultTableModel) thuocKeDonTable.getModel();
+        model1.setRowCount(0);
+        for (Thuoc xx : controller.getThuocController()) {
+            if (xx.getMaBenhNhan().equals(h.getMaBenhNhan())) {
+                for (VatTu yy : controller.getVaTuConTroller()) {
+                    if (xx.getMaVatTu().equals(yy.getMaVatTu())) {
+                        Object[] rowData = {
+                            yy.getMaVatTu(),
+                            yy.getTenVatTu(),
+                            yy.getLoai(),
+                            yy.getSoLuong(),
+                            yy.getGiaNhap() / yy.getSoLuong()
+                        };
+                        model1.addRow(rowData);
+                    }
+                }
+            }
+        }
     }
-    
+
     //sửa hồ sơ bệnh nhân theo mã hồ sơ 
     private void handleUpdatingAction() {
         capNhatBAButton.addActionListener(e -> {
@@ -285,7 +313,7 @@ public class TabHoSoBenhNhan {
             bindData();
             tenBacSiTextField.setText(controller.findTenBacSiByMa(maBacSi));
             tenBNLabel.setText(controller.findTenBenhNhanByMaBenhNhan(maBenhNhan));
-            updateBenhAnTable(maHoSoBenhNhan, controller.findTenBenhNhanByMaBenhNhan(maBenhNhan), ngayKham, controller.findTenBacSiByMa(maBacSi));
+            updateBenhAnTable(maHoSoBenhNhan, controller.findTenBenhNhanByMaBenhNhan(maBenhNhan), ngayKham, controller.findTenBacSiByMa(maBacSi), maBenhNhan);
         });
     }
 
@@ -308,9 +336,12 @@ public class TabHoSoBenhNhan {
                         // Cập nhật bảng
                         DefaultTableModel model = (DefaultTableModel) benhAnTable.getModel();
                         model.removeRow(selectedIndex);
+                        
+                        DefaultTableModel model1 = (DefaultTableModel) thuocKeDonTable.getModel();
+                        model1.setRowCount(0);
 
                         JOptionPane.showMessageDialog(null, "Xóa bệnh án thành công!");
-                        
+
                         //cập nhật textfield
                         resetTextField();
                     } else {
