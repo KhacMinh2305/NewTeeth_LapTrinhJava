@@ -1,0 +1,20 @@
+BS001#Lăng Tiểu Lệ#15/03/1980#Nam#Hà Nội#0987654321#Nội khoa#Trưởng khoa#20000000 
+BS002#Hoắc Vũ Hạo#22/05/1985#Nữ#Hải Phòng#0978645312#Ngoại khoa#Bác sĩ chính#18000000 
+BS003#Đường Tam#10/12/1975#Nam#Đà Nẵng#0967534210#Nhi khoa#Phó trưởng khoa#19500000 
+BS004#Mã Hồng Tuấn#08/09/1990#Nữ#Huế#0956432109#Răng hàm mặt#Bác sĩ#17,000,000 
+BS005#Lam Tiểu Bố#25/01/1983#Nam#Hải Dương#0945321098#Sản khoa#Trưởng khoa#21000000 
+BS006#Lăng Hàn#13/07/1988#Nữ#Quảng Ninh#0934210987#Tim mạch#Bác sĩ chính#19000000 
+BS007#Trần Anh Tuấn#17/11/1979#Nam#Thanh Hóa#0923109876#Thần kinh#Phó trưởng khoa#18500000 
+BS008#Tiểu Vũ#05/04/1992#Nữ#Nghệ An#0912098765#Chấn thương chỉnh hình#Bác sĩ#16500000 
+BS009#Ngưu Thần Nam#30/06/1981#Nam#Bắc Ninh#0901987654#Tiêu hóa#Trưởng khoa#20500000 
+BS010#Bùi Thị Nga#14/08/1986#Nữ#Thái Bình#0890876543#Nội tiết#Bác sĩ chính#18200000 
+BS011#Dương Văn Quý#19/02/1977#Nam#Ninh Bình#0880765432#Da liễu#Phó trưởng khoa#19300000 
+BS012#Phan Thị L#23/10/1991#Nữ#Hòa Bình#0870654321#Mắt#Bác sĩ#17500000 
+BS013#Lương Văn M#07/09/1982#Nam#Bắc Giang#0860543210#Thận#Trưởng khoa#21300000 
+BS014#Cao Thị N#29/03/1984#Nữ#Vĩnh Phúc#0850432109#Tai mũi họng#Bác sĩ chính#18700000 
+BS015#Trịnh Văn O#11/12/1989#Nam#Lào Cai#0840321098#Phổi#Phó trưởng khoa#19700000 
+BS016#Phùng Thị P#26/05/1987#Nữ#Phú Thọ#0830210987#Lão khoa#Bác sĩ#17800000 
+BS017#Lâm Văn Q#15/06/1980#Nam#Tuyên Quang#0820109876#Y học cổ truyền#Trưởng khoa#22000000 
+BS018#Nguyễn Thị R#03/04/1993#Nữ#Hà Nam#0810098765#Nhiễm khuẩn#Bác sĩ chính#18400000 
+BS019#Mai Văn S#21/11/1981#Nam#Hà Tĩnh#0800987654#Ung bướu#Phó trưởng khoa#20100000 
+BS020#Trần Thị T#12/01/1988#Nữ#Quảng Bình#0790876543#Huyết học#Bác sĩ#18900000 
