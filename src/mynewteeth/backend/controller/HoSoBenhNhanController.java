@@ -33,23 +33,143 @@ import mynewteeth.backend.model.VatTu;
 public class HoSoBenhNhanController {
 
     private List<HoSoBenhNhan> danhSachHoSoBenhNhan;
-    private BenhNhanController benhNhanController;
-    private BacSiController bacSiController;
-    private VatTuController vaTuConTroller;
-
+    private List<BenhNhan> benhNhanConTroller;
+    private List<VatTu> vaTuConTroller;
+    private List<BacSi> bacSiController;
+    public String file_vatTu = "src/mynewteeth/backend/data_repository/local_data/raw_data/VatTu.txt";
+    public String file_bacSi = "src/mynewteeth/backend/data_repository/local_data/raw_data/BacSi.txt";
+    public String file_benhNhan = "src/mynewteeth/backend/data_repository/local_data/raw_data/BenhNhan.txt";
+    
     public HoSoBenhNhanController() {
         danhSachHoSoBenhNhan = new ArrayList<>();
-        benhNhanController = new BenhNhanController();
-        bacSiController = new BacSiController();
-        vaTuConTroller = new VatTuController();
-        benhNhanController.loadFromFile("src/mynewteeth/backend/data_repository/local_data/raw_data/BenhNhan.txt");
-        bacSiController.addFromFile("src/mynewteeth/backend/data_repository/local_data/raw_data/BacSi.txt");
-        vaTuConTroller.loadFromFile("src/mynewteeth/backend/data_repository/local_data/raw_data/VatTu.txt");
+        vaTuConTroller = new ArrayList<>();
+        benhNhanConTroller = new ArrayList<>();
+        bacSiController = new ArrayList<>();
+        loadFromFile_benhnhan(file_benhNhan);
+        loadFromFile_bacsi(file_bacSi);
+        loadFromFile_vattu(file_vatTu);
     }
 
-    public VatTuController getVaTuConTroller() {
+    public List<HoSoBenhNhan> getDanhSachHoSoBenhNhan() {
+        return danhSachHoSoBenhNhan;
+    }
+
+    public List<BenhNhan> getBenhNhanConTroller() {
+        return benhNhanConTroller;
+    }
+
+    public List<VatTu> getVaTuConTroller() {
         return vaTuConTroller;
     }
+
+    public List<BacSi> getBacSiController() {
+        return bacSiController;
+    }
+
+    public void setDanhSachHoSoBenhNhan(List<HoSoBenhNhan> danhSachHoSoBenhNhan) {
+        this.danhSachHoSoBenhNhan = danhSachHoSoBenhNhan;
+    }
+
+    public void setBenhNhanConTroller(List<BenhNhan> benhNhanConTroller) {
+        this.benhNhanConTroller = benhNhanConTroller;
+    }
+
+    public void setVaTuConTroller(List<VatTu> vaTuConTroller) {
+        this.vaTuConTroller = vaTuConTroller;
+    }
+
+    public void setBacSiController(List<BacSi> bacSiController) {
+        this.bacSiController = bacSiController;
+    }
+
+    
+    public void loadFromFile_benhnhan(String fileName) {
+        try {
+            File file = new File(fileName);
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] parts = line.split("#");
+                if (parts.length == 6) {
+                    String maBenhNhan = parts[0];
+                    String tenBenhNhan = parts[1];
+                    String gioiTinh = parts[2];
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    Date ngaySinh = sdf.parse(parts[3]);
+                    String queQuan = parts[4];
+                    String soDienThoai = parts[5];
+                    BenhNhan benhNhan = new BenhNhan(maBenhNhan, tenBenhNhan, gioiTinh, ngaySinh, queQuan, soDienThoai);
+                    benhNhanConTroller.add(benhNhan);
+                }
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + e.getMessage());
+        } catch (ParseException e) {
+            System.out.println("Parse exception: " + e.getMessage());
+        }
+    }
+
+    public void loadFromFile_bacsi(String fileName) {
+        try (Scanner scanner = new Scanner(new File(fileName))) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] parts = line.split("#");
+                if (parts.length == 9) {
+                    String maBacSy = parts[0];
+                    String tenBacSy = parts[1];
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                    Date ngaySinh = sdf.parse(parts[2]);
+                    String gioiTinh = parts[3];
+                    String queQuan = parts[4];
+                    String soDienThoai = parts[5];
+                    String chuyenMon = parts[6];
+                    String chucVu = parts[7];
+                    double luongThang = Double.parseDouble(parts[8].replace(",", "")); // Xóa dấu phẩy nếu có trong giá trị lương
+
+                    BacSi bacsi = new BacSi(maBacSy, tenBacSy, ngaySinh, gioiTinh, queQuan, soDienThoai, chuyenMon, chucVu, luongThang);
+                    bacSiController.add(bacsi);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + e.getMessage());
+        } catch (ParseException e) {
+            System.out.println("Parse exception: " + e.getMessage());
+        }
+    }
+
+
+    public void loadFromFile_vattu(String fileName) {
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("#");
+                if (parts.length == 7) {
+                    String maVatTu = parts[0];
+                    String tenVatTu = parts[1];
+                    String loai = parts[2];
+                    String tinhTrang = parts[3];
+                    double giaNhap = Double.parseDouble(parts[4]);
+                    Date ngayNhap = sdf.parse(parts[5]);
+                    int soLuong = Integer.parseInt(parts[6]);
+
+                    // Tạo đối tượng VatTu và thêm vào danh sách
+                    VatTu vatTu = new VatTu(maVatTu, tenVatTu, loai, tinhTrang, giaNhap, ngayNhap, soLuong);
+                    vaTuConTroller.add(vatTu);
+                } else {
+                    System.out.println("Error: Invalid data format in file");
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("File not found: " + e.getMessage());
+        } catch (ParseException e) {
+            System.out.println("Parse exception: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Number format exception: " + e.getMessage());
+        }
+    }
+
 
     public String findTenBenhNhanByMaBenhNhan(String maBenhNhan) {
         String filePath = "src/mynewteeth/backend/data_repository/local_data/raw_data/BenhNhan.txt";
@@ -92,12 +212,31 @@ public class HoSoBenhNhanController {
         return null; // Trả về null nếu không tìm thấy mã Bác sĩ
     }
 
+    public BenhNhan findBenhNhanByMa(String maBenhNhan) {
+        BenhNhan newBenhNhan = new BenhNhan();
+        for (BenhNhan bn : benhNhanConTroller) {
+            if (bn.getMaBenhNhan().equals(maBenhNhan)) {
+                newBenhNhan = bn;
+            }
+        }
+        return newBenhNhan;
+    }
+    
+    public BacSi findBacSiByMa(String maBacSi) {
+        BacSi newBacSi = new BacSi();
+        for (BacSi bs : bacSiController) {
+            if (bs.getMaBacSi().equals(maBacSi)) {
+                newBacSi = bs;
+            }
+        }
+        return newBacSi;
+    }
     public void themBenhNhan(String maHoSoBenhNhan, String ngayKham, String trieuChung, String chanDoan, String tenBacSi, String maBacSi, String ghiChu, String ngayTaiKham, String maBenhNhan) {
         try {
             MaBenhAnExists(maHoSoBenhNhan);
-            BacSi bacSi = bacSiController.findBacSiByMa(maBacSi);
-            BenhNhan benhNhan = benhNhanController.findBenhNhanByMa(maBenhNhan);
-            List<VatTu> listVatTu = vaTuConTroller.getDanhSachVatTu();
+            BacSi bacSi = findBacSiByMa(maBacSi);
+            BenhNhan benhNhan = findBenhNhanByMa(maBenhNhan);
+            List<VatTu> listVatTu = vaTuConTroller;
 
             // Định dạng ngày tháng
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -162,11 +301,11 @@ public class HoSoBenhNhanController {
                     Date ngayTaiKham = parts[7].isEmpty() ? null : sdf.parse(parts[7]);
                     String ghiChuBacSi = parts[6];
 
-                    BenhNhan benhNhan = benhNhanController.findBenhNhanByMa(parts[8]);
-                    BacSi bacSi = bacSiController.findBacSiByMa(parts[5]);
+                    BenhNhan benhNhan = findBenhNhanByMa(parts[8]);
+                    BacSi bacSi = findBacSiByMa(parts[5]);
 
                     HoSoBenhNhan hoSoBenhNhan = new HoSoBenhNhan(maHoSoBenhNhan, benhNhan, bacSi, ngayKham,
-                            trieuChung, chuanDoanBanDau, tienSuBenh, ngayTaiKham, ghiChuBacSi, 0, vaTuConTroller.getDanhSachVatTu());
+                            trieuChung, chuanDoanBanDau, tienSuBenh, ngayTaiKham, ghiChuBacSi, 0, vaTuConTroller);
                     danhSachHoSoBenhNhan.add(hoSoBenhNhan);
                 } else {
                     System.out.println("Error: Invalid data format in file");
@@ -250,11 +389,11 @@ public class HoSoBenhNhanController {
             hoSoCanSua.setNgayTaiKham(ngayTaiKhamDate);
 
             // Tìm và cập nhật bác sĩ và bệnh nhân nếu cần
-            BacSi bacSi = bacSiController.findBacSiByMa(maBacSi);
+            BacSi bacSi = findBacSiByMa(maBacSi);
             if (bacSi != null) {
                 hoSoCanSua.setBacSi(bacSi);
             }
-            BenhNhan benhNhan = benhNhanController.findBenhNhanByMa(maBenhNhan);
+            BenhNhan benhNhan = findBenhNhanByMa(maBenhNhan);
             if (benhNhan != null) {
                 hoSoCanSua.setBenhNhan(benhNhan);
             }
@@ -268,16 +407,6 @@ public class HoSoBenhNhanController {
             System.out.println("Không tìm thấy hồ sơ bệnh nhân: " + maHoSoBenhNhan);
         }
     }
-
-    public BenhNhanController getBenhNhanController() {
-        return benhNhanController;
-    }
-
-    public BacSiController getBacSiController() {
-        return bacSiController;
-    }
-
-    public List<HoSoBenhNhan> getDanhSachHoSoBenhNhan() {
-        return danhSachHoSoBenhNhan;
-    }
+    
+    
 }

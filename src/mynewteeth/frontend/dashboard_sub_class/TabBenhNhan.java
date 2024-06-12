@@ -71,14 +71,14 @@ public class TabBenhNhan {
 
         // Xóa dữ liệu cũ trong bảng (nếu có)
         model.setRowCount(0);
-
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         // Thêm từng bệnh nhân vào bảng
         for (BenhNhan benhNhan : danhSachBenhNhan) {
             Object[] rowData = {
                 benhNhan.getMaBenhNhan(),
                 benhNhan.getTenBenhNhan(),
                 benhNhan.getGioiTinh(),
-                benhNhan.getNgaySinh(),
+                dateFormat.format(benhNhan.getNgaySinh()), // Định dạng ngày sinh
                 benhNhan.getQueQuan(),
                 benhNhan.getSoDienThoai()
 
@@ -92,19 +92,28 @@ public class TabBenhNhan {
         // Xử lý sự kiện liên quan đến bảng : Khi click vào 1 ròng trên bảng => Lấy dữ liệu dòng đó đưa vào các text field
         benhNhanTable.getSelectionModel().addListSelectionListener(event -> {
             int selectedRow = benhNhanTable.getSelectedRow();
-            if (selectedRow != -1) {
-                maBNTextField.setText((String) benhNhanTable.getValueAt(selectedRow, 0));
-                tenBNTextField.setText((String) benhNhanTable.getValueAt(selectedRow, 1));
-                gioiTinhBnTextField.setText((String) benhNhanTable.getValueAt(selectedRow, 2));
+        if (selectedRow != -1) {
+            maBNTextField.setText((String) benhNhanTable.getValueAt(selectedRow, 0));
+            tenBNTextField.setText((String) benhNhanTable.getValueAt(selectedRow, 1));
+            gioiTinhBnTextField.setText((String) benhNhanTable.getValueAt(selectedRow, 2));
 
-                // Lấy giá trị Date và chuyển đổi thành String
-                Date ngaySinhDate = (Date) benhNhanTable.getValueAt(selectedRow, 3);
-                String ngaySinhStr = new SimpleDateFormat("dd/MM/yyyy").format(ngaySinhDate);
-                ngaySinhBNTextField.setText(ngaySinhStr);
+            // Lấy chuỗi ngày sinh từ bảng
+            String ngaySinhStr = (String) benhNhanTable.getValueAt(selectedRow, 3);
 
-                queQuanBNTextField.setText((String) benhNhanTable.getValueAt(selectedRow, 4));
-                dienThoaiBNTextField.setText((String) benhNhanTable.getValueAt(selectedRow, 5));
+            // Chuyển đổi từ chuỗi sang kiểu Date
+            Date ngaySinhDate = null;
+            try {
+                ngaySinhDate = new SimpleDateFormat("dd/MM/yyyy").parse(ngaySinhStr);
+            } catch (ParseException e) {
+                e.printStackTrace(); // Xử lý lỗi nếu có
             }
+
+            // Đặt giá trị ngày sinh vào text field
+            ngaySinhBNTextField.setText(ngaySinhStr);
+
+            queQuanBNTextField.setText((String) benhNhanTable.getValueAt(selectedRow, 4));
+            dienThoaiBNTextField.setText((String) benhNhanTable.getValueAt(selectedRow, 5));
+        }
         });
     }
 

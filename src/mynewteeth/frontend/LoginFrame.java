@@ -46,6 +46,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private static final String ACCOUNT_FILE_URI = "src/mynewteeth/backend/data_repository/local_data/raw_data/taikhoan.txt";
     private static final String APP_CONFIG_URI = "src/mynewteeth/backend/configs/appconfig.txt";
+    private static final String USER_LOG_STATUS = "src/mynewteeth/backend/configs/userlogstatus.txt";
     private FileInputStream fileInputStream = null;
     private BufferedReader bufferedReader = null;
     private final List<String[]> accounts = new ArrayList<>();
@@ -96,6 +97,7 @@ public class LoginFrame extends javax.swing.JFrame {
                             d.setLocationRelativeTo(null);
                             d.setVisible(true);
                             saveLoginAutomaticallyToFile(account, password);
+                            saveUserLogStatus(account, password);
                             this.dispose();
                             return;
                         }
@@ -109,30 +111,49 @@ public class LoginFrame extends javax.swing.JFrame {
             DialogProvider.showMessageDialog("Thông tin tài khoản hoặc mật khẩu không đúng !", account);
         });
     }
-    
+
     private BufferedWriter writer;
     private FileWriter fileWriter;
+
+    private void closeWriter() {
+        try {
+            writer.close();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            fileWriter.close();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void saveUserLogStatus(String acc, String pass) {
+        new Thread(() -> {
+            try {
+                FileWriter logFileWriter = new FileWriter(USER_LOG_STATUS);
+                BufferedWriter logWriter = new BufferedWriter(logFileWriter);
+                logWriter.write(acc + "\n" + pass);
+                logWriter.close();
+                logFileWriter.close();
+            } catch (IOException ex) {
+                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }).start();
+    }
+
     private void saveLoginAutomaticallyToFile(String acc, String pass) {
-        if(nhoTKCheckBox.isSelected()) {
+        if (nhoTKCheckBox.isSelected()) {
             new Thread(() -> {
                 try {
-                    fileWriter = new FileWriter(APP_CONFIG_URI); 
+                    fileWriter = new FileWriter(APP_CONFIG_URI);
                     writer = new BufferedWriter(fileWriter);
                     writer.flush();
                     writer.write(acc + "\n" + pass + "\n" + "true");
                 } catch (IOException ex) {
                     Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
                 } finally {
-                    try {
-                        writer.close();
-                    } catch (IOException ex) {
-                        Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    try {
-                        fileWriter.close();
-                    } catch (IOException ex) {
-                        Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    closeWriter();
                 }
             }).start();
         }

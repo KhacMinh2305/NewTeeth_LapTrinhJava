@@ -5,11 +5,11 @@
 package mynewteeth.frontend;
 
 import java.awt.Color;
-import java.awt.Label;
-import javax.swing.JButton;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import mynewteeth.backend.interfaces.ILogout;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mynewteeth.frontend.dashboard_sub_class.TabBacSi;
 import mynewteeth.frontend.dashboard_sub_class.TabBenhNhan;
 import mynewteeth.frontend.dashboard_sub_class.TabHoSoBenhNhan;
@@ -61,10 +61,10 @@ public class DashboardFrame extends javax.swing.JFrame {
     }
 
     private void initHoSoBNTab() {
-        tabHoSoBenhNhan = new TabHoSoBenhNhan(maBATextField, ngayKhamTextField, trieuChungTextField, chanDoanTextField,
-            tenBacSiTextField, maBacSiTextField,  ghiChuTextField,ngayTaiKhamTextField,
-            maBenhNhanTextField, tenBNLabel, gioiTinhBNLabel,  ngaySinhBNLabel, dienThoaiBNLabel, 
-             thuocKeDonTable,  benhAnTable, timKiemBAButton, capNhatBAButton,  xoaBAButton, themBAButton);
+        tabHoSoBenhNhan = new TabHoSoBenhNhan(maBATextField, ngayKhamTextField, trieuChungTextField, chanDoanTextField, 
+                tenBacSiTextField,  maBacSiTextField, ghiChuTextField, ngayTaiKhamTextField,  maBenhNhanTextField, tenBNLabel,  
+                gioiTinhBNLabel, ngaySinhBNLabel, dienThoaiBNLabel, thuocKeDonTable, benhAnTable, timKiemBAButton, capNhatBAButton, 
+               xoaBAButton, themBAButton);
     }
 
     private void initTabBacSi() {
@@ -104,17 +104,30 @@ public class DashboardFrame extends javax.swing.JFrame {
                 dichVuHenTable, ghiChuHenTextField, themLichHenButton, xoaLichHenButton, capNhatLichHenButton, timKiemLichHenButton);
     }
 
+    private static final String APP_CONFIG_URI = "src/mynewteeth/backend/configs/appconfig.txt";
+
     private void initTabTaiKhoan() {
         tabTaiKhoan = new TabTaiKhoan(taiKhoanTable, tiaKhoanTextField, matKhauTextField, ngayTaoTextField,
-                doiMKButton, chanTKButton, xoaTKButton, dangXuatButton, () -> {
+                doiMKButton, chanTKButton, xoaTKButton, dangXuatButton, themTKButton, () -> {
                     LoginFrame loginFrame = new LoginFrame();
                     loginFrame.setTitle("Login");
                     loginFrame.getContentPane().setBackground(Color.WHITE);
                     loginFrame.setResizable(false);
                     loginFrame.setLocationRelativeTo(null);
                     loginFrame.setVisible(true);
+                    new Thread(() -> {
+                        try {
+                            FileWriter fileWriter = new FileWriter(APP_CONFIG_URI);
+                            BufferedWriter writer = new BufferedWriter(fileWriter);
+                            writer.write("");
+                            writer.close();
+                            fileWriter.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(DashboardFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }).start();
                     DashboardFrame.this.dispose();
-        });
+                });
     }
 
     /**
@@ -126,6 +139,7 @@ public class DashboardFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFileChooser1 = new javax.swing.JFileChooser();
         jLabel1 = new javax.swing.JLabel();
         dashboardTabPane = new javax.swing.JTabbedPane();
         benhNhanPanel = new javax.swing.JPanel();
@@ -329,8 +343,6 @@ public class DashboardFrame extends javax.swing.JFrame {
         themLichHenButton = new javax.swing.JButton();
         capNhatLichHenButton = new javax.swing.JButton();
         taiKhoanPane = new javax.swing.JPanel();
-        jScrollPane12 = new javax.swing.JScrollPane();
-        taiKhoanTable = new javax.swing.JTable();
         jLabel42 = new javax.swing.JLabel();
         jLabel76 = new javax.swing.JLabel();
         tiaKhoanTextField = new javax.swing.JTextField();
@@ -339,9 +351,12 @@ public class DashboardFrame extends javax.swing.JFrame {
         jLabel78 = new javax.swing.JLabel();
         matKhauTextField = new javax.swing.JTextField();
         xoaTKButton = new javax.swing.JButton();
-        doiMKButton = new javax.swing.JButton();
         chanTKButton = new javax.swing.JButton();
+        themTKButton = new javax.swing.JButton();
         dangXuatButton = new javax.swing.JButton();
+        doiMKButton = new javax.swing.JButton();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        taiKhoanTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 51, 102));
@@ -625,10 +640,13 @@ public class DashboardFrame extends javax.swing.JFrame {
         thuocKeDonTable.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         thuocKeDonTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Mã thuốc", "Tên thuốc", "Loại", "Số lượng", "Giá tiền (VND)"
+                "Mã thuốc", "Tên thuốc", "Đơn vị", "Số lượng", "Giá tiền (/ Đơn vị)"
             }
         ) {
             Class[] types = new Class [] {
@@ -663,8 +681,6 @@ public class DashboardFrame extends javax.swing.JFrame {
         jLabel41.setText("Mã bác sĩ :");
 
         maBacSiTextField.setBackground(new java.awt.Color(227, 238, 245));
-
-        maBenhNhanTextField.setBackground(new java.awt.Color(227, 238, 245));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -715,7 +731,7 @@ public class DashboardFrame extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(18, 18, 18)
                                 .addComponent(maBenhNhanTextField))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel13)
@@ -814,7 +830,10 @@ public class DashboardFrame extends javax.swing.JFrame {
         benhAnTable.setBackground(new java.awt.Color(204, 204, 204));
         benhAnTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
                 "Mã bệnh án", "Tên bệnh nhân", "Ngày khám", "Bác sĩ"
@@ -1577,7 +1596,7 @@ public class DashboardFrame extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, true
@@ -1616,18 +1635,10 @@ public class DashboardFrame extends javax.swing.JFrame {
         loaiVatTuTextField.setBackground(new java.awt.Color(204, 204, 255));
         loaiVatTuTextField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         loaiVatTuTextField.setForeground(new java.awt.Color(0, 51, 102));
-        loaiVatTuTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loaiVatTuTextFieldActionPerformed(evt);
-            }
-        });
 
         vatTuTextField.setBackground(new java.awt.Color(204, 204, 255));
         vatTuTextField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         vatTuTextField.setForeground(new java.awt.Color(0, 51, 102));
-        vatTuTextField.setFocusCycleRoot(true);
-        vatTuTextField.setFocusTraversalPolicyProvider(true);
-        vatTuTextField.setName(""); // NOI18N
 
         tenVatTuTextField.setBackground(new java.awt.Color(204, 204, 255));
         tenVatTuTextField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -1665,21 +1676,11 @@ public class DashboardFrame extends javax.swing.JFrame {
         themVTButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         themVTButton.setText("Thêm vật tư");
         themVTButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 204, 255), 2, true));
-        themVTButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                themVTButtonActionPerformed(evt);
-            }
-        });
 
         capNhatVatTuButton.setBackground(new java.awt.Color(225, 232, 239));
         capNhatVatTuButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         capNhatVatTuButton.setText("Cập nhật TT VT");
         capNhatVatTuButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 204, 255), 2, true));
-        capNhatVatTuButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                capNhatVatTuButtonActionPerformed(evt);
-            }
-        });
 
         timKiemVatTuButton.setBackground(new java.awt.Color(225, 232, 239));
         timKiemVatTuButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -1838,6 +1839,7 @@ public class DashboardFrame extends javax.swing.JFrame {
 
         vatPhamGDTable.setAutoCreateRowSorter(true);
         vatPhamGDTable.setBackground(new java.awt.Color(0, 51, 102));
+        vatPhamGDTable.setForeground(new java.awt.Color(255, 255, 255));
         vatPhamGDTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -1853,7 +1855,7 @@ public class DashboardFrame extends javax.swing.JFrame {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, true, true, true, true, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1864,11 +1866,9 @@ public class DashboardFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        vatPhamGDTable.setColumnSelectionAllowed(true);
         jScrollPane10.setViewportView(vatPhamGDTable);
         vatPhamGDTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (vatPhamGDTable.getColumnModel().getColumnCount() > 0) {
-            vatPhamGDTable.getColumnModel().getColumn(6).setResizable(false);
-        }
 
         jLabel75.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel75.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -2369,23 +2369,105 @@ public class DashboardFrame extends javax.swing.JFrame {
         dashboardTabPane.addTab("Lịch hẹn", lichHenPane);
 
         taiKhoanPane.setBackground(new java.awt.Color(0, 51, 102));
+        taiKhoanPane.setLayout(null);
 
+        jLabel42.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        jLabel42.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel42.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel42.setText("Danh sách tài khoản");
+        taiKhoanPane.add(jLabel42);
+        jLabel42.setBounds(0, 0, 961, 79);
+
+        jLabel76.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel76.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel76.setText("Tài khoản :");
+        taiKhoanPane.add(jLabel76);
+        jLabel76.setBounds(614, 85, 269, 16);
+
+        tiaKhoanTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        taiKhoanPane.add(tiaKhoanTextField);
+        tiaKhoanTextField.setBounds(614, 107, 269, 35);
+
+        jLabel77.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel77.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel77.setText("Mật khẩu");
+        taiKhoanPane.add(jLabel77);
+        jLabel77.setBounds(614, 160, 269, 16);
+
+        ngayTaoTextField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        ngayTaoTextField.setForeground(new java.awt.Color(153, 0, 0));
+        ngayTaoTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        ngayTaoTextField.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        ngayTaoTextField.setEnabled(false);
+        taiKhoanPane.add(ngayTaoTextField);
+        ngayTaoTextField.setBounds(614, 257, 269, 35);
+
+        jLabel78.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel78.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel78.setText("Ngày tạo (không cần điền trường này) :");
+        taiKhoanPane.add(jLabel78);
+        jLabel78.setBounds(614, 235, 269, 16);
+
+        matKhauTextField.setForeground(new java.awt.Color(0, 51, 102));
+        matKhauTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        taiKhoanPane.add(matKhauTextField);
+        matKhauTextField.setBounds(614, 182, 269, 35);
+
+        xoaTKButton.setBackground(new java.awt.Color(0, 51, 102));
+        xoaTKButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        xoaTKButton.setForeground(new java.awt.Color(255, 255, 255));
+        xoaTKButton.setText("Xóa tài khoản");
+        xoaTKButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 3, true));
+        taiKhoanPane.add(xoaTKButton);
+        xoaTKButton.setBounds(755, 312, 128, 40);
+
+        chanTKButton.setBackground(new java.awt.Color(0, 51, 102));
+        chanTKButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        chanTKButton.setForeground(new java.awt.Color(255, 255, 255));
+        chanTKButton.setText("Chặn / Hủy Chặn");
+        chanTKButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 3, true));
+        taiKhoanPane.add(chanTKButton);
+        chanTKButton.setBounds(755, 370, 128, 40);
+
+        themTKButton.setBackground(new java.awt.Color(0, 51, 102));
+        themTKButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        themTKButton.setForeground(new java.awt.Color(255, 255, 255));
+        themTKButton.setText("Thêm tài khoản");
+        themTKButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 3, true));
+        taiKhoanPane.add(themTKButton);
+        themTKButton.setBounds(614, 312, 129, 40);
+
+        dangXuatButton.setBackground(new java.awt.Color(0, 51, 102));
+        dangXuatButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        dangXuatButton.setForeground(new java.awt.Color(255, 255, 255));
+        dangXuatButton.setText("Đăng xuất");
+        dangXuatButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 3, true));
+        taiKhoanPane.add(dangXuatButton);
+        dangXuatButton.setBounds(614, 420, 269, 40);
+
+        doiMKButton.setBackground(new java.awt.Color(0, 51, 102));
+        doiMKButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        doiMKButton.setForeground(new java.awt.Color(255, 255, 255));
+        doiMKButton.setText("Đổi mật khẩu");
+        doiMKButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 3, true));
+        taiKhoanPane.add(doiMKButton);
+        doiMKButton.setBounds(614, 370, 129, 40);
+
+        taiKhoanTable.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        taiKhoanTable.setForeground(new java.awt.Color(0, 51, 102));
         taiKhoanTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Tài khoản", "Mật khẩu", "Ngày tạo", "Trạng thái"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -2396,109 +2478,18 @@ public class DashboardFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        taiKhoanTable.setSelectionBackground(new java.awt.Color(153, 153, 255));
+        taiKhoanTable.setSelectionForeground(new java.awt.Color(0, 51, 102));
+        taiKhoanTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane12.setViewportView(taiKhoanTable);
+        if (taiKhoanTable.getColumnModel().getColumnCount() > 0) {
+            taiKhoanTable.getColumnModel().getColumn(0).setResizable(false);
+            taiKhoanTable.getColumnModel().getColumn(1).setResizable(false);
+            taiKhoanTable.getColumnModel().getColumn(2).setResizable(false);
+        }
 
-        jLabel42.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        jLabel42.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel42.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel42.setText("Danh sách tài khoản");
-
-        jLabel76.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel76.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel76.setText("Tài khoản :");
-
-        tiaKhoanTextField.setForeground(new java.awt.Color(0, 51, 102));
-
-        jLabel77.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel77.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel77.setText("Mật khẩu");
-
-        ngayTaoTextField.setForeground(new java.awt.Color(0, 51, 102));
-        ngayTaoTextField.setEnabled(false);
-
-        jLabel78.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel78.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel78.setText("Ngày tạo :");
-
-        matKhauTextField.setForeground(new java.awt.Color(0, 51, 102));
-
-        xoaTKButton.setBackground(new java.awt.Color(0, 51, 102));
-        xoaTKButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        xoaTKButton.setForeground(new java.awt.Color(255, 255, 255));
-        xoaTKButton.setText("Xóa vĩnh viễn");
-        xoaTKButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 3, true));
-
-        doiMKButton.setBackground(new java.awt.Color(0, 51, 102));
-        doiMKButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        doiMKButton.setForeground(new java.awt.Color(255, 255, 255));
-        doiMKButton.setText("Đổi mật khẩu");
-        doiMKButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 3, true));
-
-        chanTKButton.setBackground(new java.awt.Color(0, 51, 102));
-        chanTKButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        chanTKButton.setForeground(new java.awt.Color(255, 255, 255));
-        chanTKButton.setText("Chặn truy cập");
-        chanTKButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 3, true));
-
-        dangXuatButton.setBackground(new java.awt.Color(0, 51, 102));
-        dangXuatButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        dangXuatButton.setForeground(new java.awt.Color(255, 255, 255));
-        dangXuatButton.setText("Đăng xuất");
-        dangXuatButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 3, true));
-
-        javax.swing.GroupLayout taiKhoanPaneLayout = new javax.swing.GroupLayout(taiKhoanPane);
-        taiKhoanPane.setLayout(taiKhoanPaneLayout);
-        taiKhoanPaneLayout.setHorizontalGroup(
-            taiKhoanPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(taiKhoanPaneLayout.createSequentialGroup()
-                .addComponent(jLabel42, javax.swing.GroupLayout.PREFERRED_SIZE, 961, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(taiKhoanPaneLayout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
-                .addGroup(taiKhoanPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(dangXuatButton, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
-                    .addComponent(tiaKhoanTextField)
-                    .addComponent(matKhauTextField)
-                    .addComponent(ngayTaoTextField)
-                    .addComponent(doiMKButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(chanTKButton, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
-                    .addComponent(xoaTKButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel76, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel77, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel78, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        taiKhoanPaneLayout.setVerticalGroup(
-            taiKhoanPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(taiKhoanPaneLayout.createSequentialGroup()
-                .addComponent(jLabel42, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
-                .addGroup(taiKhoanPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(taiKhoanPaneLayout.createSequentialGroup()
-                        .addComponent(jLabel76)
-                        .addGap(6, 6, 6)
-                        .addComponent(tiaKhoanTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel77)
-                        .addGap(6, 6, 6)
-                        .addComponent(matKhauTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel78)
-                        .addGap(6, 6, 6)
-                        .addComponent(ngayTaoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(doiMKButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(chanTKButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(xoaTKButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dangXuatButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
-        );
+        taiKhoanPane.add(jScrollPane12);
+        jScrollPane12.setBounds(50, 80, 452, 380);
 
         dashboardTabPane.addTab("Tài khoản", taiKhoanPane);
 
@@ -2519,18 +2510,6 @@ public class DashboardFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void themVTButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themVTButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_themVTButtonActionPerformed
-
-    private void capNhatVatTuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capNhatVatTuButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_capNhatVatTuButtonActionPerformed
-
-    private void loaiVatTuTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loaiVatTuTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_loaiVatTuTextFieldActionPerformed
 
     public javax.swing.JTabbedPane getTabbedPane() {
         return dashboardTabPane;
@@ -2570,6 +2549,7 @@ public class DashboardFrame extends javax.swing.JFrame {
     private javax.swing.JPanel hoSoBNPanel;
     private javax.swing.JPanel hoaDonTabPane;
     private javax.swing.JTable hoaDonTable;
+    private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2728,6 +2708,7 @@ public class DashboardFrame extends javax.swing.JFrame {
     private javax.swing.JButton themHDButton;
     private javax.swing.JButton themLichHenButton;
     private javax.swing.JButton themNhapXuatButton;
+    private javax.swing.JButton themTKButton;
     private javax.swing.JButton themVTButton;
     private javax.swing.JComboBox<String> thuocHDComboBox;
     private javax.swing.JTable thuocHDTable;

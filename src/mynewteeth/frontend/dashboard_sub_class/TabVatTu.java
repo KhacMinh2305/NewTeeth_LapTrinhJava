@@ -70,7 +70,7 @@ public class TabVatTu {
 
     private void bindData() {
         // Lấy dữ liệu đã được load từ Controller lên rồi đổ vào UI
-        List<VatTu> danhSachVatTu = controller.getDanhSachVatTu();
+        List<VatTu> danhSachVatTu = controller.getDanhSachVatTuSafe();
 
         // Ví dụ: Giả sử mô hình của bảng là DefaultTableModel
         DefaultTableModel model = (DefaultTableModel) vatTuTable.getModel();
@@ -152,7 +152,7 @@ public class TabVatTu {
             }
 
             // Tạo đối tượng Vật Tư mới
-            VatTu newVatTu = new VatTu(maVT, tenVT, loai, tinhTrang, giaNhapStr, ngayNhap, soLuong);
+            VatTu newVatTu = new VatTu(maVT, tenVT, loai, tinhTrang, giaNhap, ngayNhap, soLuong);
 
             // Gửi dữ liệu đến lớp xử lý logic để thêm vật tư
             try {
@@ -249,8 +249,9 @@ public class TabVatTu {
 
             // Chuyển đổi chuỗi giá nhập và số lượng thành số
             int soLuong;
+            double giaNhap;
             try {
-
+                giaNhap = Double.parseDouble(giaNhapStr);
                 soLuong = Integer.parseInt(soLuongStr);
             } catch (NumberFormatException ex) {
                 DialogProvider.showMessageDialog("Giá nhập hoặc số lượng không hợp lệ!", "Thông báo");
@@ -258,7 +259,7 @@ public class TabVatTu {
             }
 
             // Tạo đối tượng Vật Tư mới
-            VatTu updatedVatTu = new VatTu(maVT, tenVT, loai, tinhTrang, giaNhapStr, ngayNhap, soLuong);
+            VatTu updatedVatTu = new VatTu(maVT, tenVT, loai, tinhTrang, giaNhap, ngayNhap, soLuong);
 
             // Gửi dữ liệu đến lớp xử lý logic để cập nhật vật tư
             boolean success = controller.updateVatTu(updatedVatTu);

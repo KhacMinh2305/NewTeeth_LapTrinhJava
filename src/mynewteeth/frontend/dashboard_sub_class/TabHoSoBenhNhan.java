@@ -3,16 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package mynewteeth.frontend.dashboard_sub_class;
-
-import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +19,6 @@ import mynewteeth.backend.model.BacSi;
 import mynewteeth.backend.model.BenhNhan;
 import mynewteeth.backend.model.HoSoBenhNhan;
 import mynewteeth.backend.model.VatTu;
-
 /**
  *
  * @author Us
@@ -55,7 +46,7 @@ public class TabHoSoBenhNhan {
     private JButton themBAButton;
     private HoSoBenhNhanController controller;
 
-    public TabHoSoBenhNhan(JTextField maBATextField, JTextField ngayKhamTextField, JTextField trieuChungTextField, JTextField chanDoanTextField, JTextField tenBacSiTextField, JTextField maBacSiTextField, JTextField ghiChuTextField, JTextField ngayTaiKhamTextField, JTextField maBenhNhanTextField, JLabel tenBNLabel, JLabel gioiTinhBNLabel, JLabel ngaySinhBNLabel, JLabel dienThoaiBNLabel, JTable thuocKeDonTable, JTable benhAnTable, JButton timKiemBAButton, JButton capNhatBAButton, JButton xoaBAButton, JButton themBAButton) {
+   public TabHoSoBenhNhan(JTextField maBATextField, JTextField ngayKhamTextField, JTextField trieuChungTextField, JTextField chanDoanTextField, JTextField tenBacSiTextField, JTextField maBacSiTextField, JTextField ghiChuTextField, JTextField ngayTaiKhamTextField, JTextField maBenhNhanTextField, JLabel tenBNLabel, JLabel gioiTinhBNLabel, JLabel ngaySinhBNLabel, JLabel dienThoaiBNLabel, JTable thuocKeDonTable, JTable benhAnTable, JButton timKiemBAButton, JButton capNhatBAButton, JButton xoaBAButton, JButton themBAButton) {
         this.maBATextField = maBATextField;
         this.ngayKhamTextField = ngayKhamTextField;
         this.trieuChungTextField = trieuChungTextField;
@@ -106,13 +97,13 @@ public class TabHoSoBenhNhan {
             };
             model.addRow(rowData);
         }
-        for (VatTu xx : controller.getVaTuConTroller().getDanhSachVatTu()) {
+        for (VatTu xx : controller.getVaTuConTroller()) {
             Object[] rowData = {
                 xx.getMaVatTu(),
                 xx.getTenVatTu(),
                 xx.getLoai(),
                 xx.getSoLuong(),
-                xx.getGiaTien()
+                //xx.getGiaTien()
             };
             model1.addRow(rowData);
         }
@@ -158,22 +149,13 @@ public class TabHoSoBenhNhan {
 
     // Viết các hàm xử lý dữ liệu và xử lý sự kiện 
     // Hàm cập nhật dữ liệu từ các Tab khác - KHÔNG ĐƯỢC XÓA 
-    public void updateData(Object updatedObject) {
-        // Test - xóa đi khi làm
-        if (updatedObject instanceof String) {
-            System.out.println("Tab hồ sơ bệnh nhân update data : " + updatedObject);
-            return;
-        }
-
+   public void updateData(Object updatedObject) {
         if (updatedObject instanceof BenhNhan) {
-
-            // Viết logic cập nhật UI với dữ liệu vừa được thay đổi 
+            // Update logic for BenhNhan
         } else if (updatedObject instanceof BacSi) {
-
-            // Viết logic cập nhật UI với dữ liệu vừa được thay đổi 
-        } else { // Vat tu
-
-            // Viết logic cập nhật UI với dữ liệu vừa được thay đổi 
+            // Update logic for BacSi
+        } else {
+            // Update logic for VatTu
         }
     }
 
@@ -240,9 +222,9 @@ public class TabHoSoBenhNhan {
                 String ghiChu = ghiChuTextField.getText();
                 String ngayTaiKham = ngayTaiKhamTextField.getText();
                 String maBenhNhan = maBenhNhanTextField.getText();
-                BacSi newBS = controller.getBacSiController().findBacSiByMa(maBacSi);
-                BenhNhan newBN = controller.getBenhNhanController().findBenhNhanByMa(maBenhNhan);
-                List<VatTu> newVT = controller.getVaTuConTroller().getDanhSachVatTu();
+                BacSi newBS = controller.findBacSiByMa(maBacSi);
+                BenhNhan newBN = controller.findBenhNhanByMa(maBenhNhan);
+                List<VatTu> newVT = controller.getVaTuConTroller();
                 if (maHoSoBenhNhan.isEmpty() || ngayKham.isEmpty() || trieuChung.isEmpty() || chanDoan.isEmpty() || maBacSi.isEmpty() || ngayTaiKham.isEmpty() || maBenhNhan.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin!");
                     return; // Dừng lại nếu có thông tin bị thiếu

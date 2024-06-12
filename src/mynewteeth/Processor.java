@@ -45,7 +45,7 @@ public class Processor {
         loginFrame.setLocationRelativeTo(null);
 
         // Check condition 
-        // read file app config and file takhoan , then compare them , if match , navigate user to dashboard and show login frame otherwise
+        // read file app config and file taikhoan , then compare them , if match , navigate user to dashboard and show login frame otherwise
         new Thread(() -> {
             String[] autoLoginConfigs = new String[3];
             String[] accountInfos = new String[4];
@@ -64,7 +64,7 @@ public class Processor {
                     }
                     autoLoginConfigs[i++] = line;
                 }
-                
+
                 // if saved acc is ok , then check whether it is matchs with any account in file taikhoan
                 fileInputStream = new FileInputStream(ACCOUNT_FILE_URI);
                 bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
@@ -79,6 +79,7 @@ public class Processor {
                                 d.setResizable(false);
                                 d.setLocationRelativeTo(null);
                                 d.setVisible(true);
+                                loginFrame.saveUserLogStatus(accountInfos[0], accountInfos[1]);
                                 loginFrame.dispose();
                                 closeReadingFileResources();
                                 return;
@@ -100,21 +101,21 @@ public class Processor {
             }
         }).start();
     }
-    
+
     private static void closeReadingFileResources() {
-        if(bufferedReader != null) {
+        if (bufferedReader != null) {
             try {
-                    bufferedReader.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(Processor.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                bufferedReader.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Processor.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        if(fileInputStream != null) {
+        if (fileInputStream != null) {
             try {
-                    fileInputStream.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(Processor.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                fileInputStream.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Processor.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

@@ -18,20 +18,3 @@ BS017#Lâm Văn Q#15/06/1980#Nam#Tuyên Quang#0820109876#Y học cổ truyền#T
 BS018#Nguyễn Thị R#03/04/1993#Nữ#Hà Nam#0810098765#Nhiễm khuẩn#Bác sĩ chính#18400000 
 BS019#Mai Văn S#21/11/1981#Nam#Hà Tĩnh#0800987654#Ung bướu#Phó trưởng khoa#20100000 
 BS020#Trần Thị T#12/01/1988#Nữ#Quảng Bình#0790876543#Huyết học#Bác sĩ#18900000 
-BS021#Lê Văn U#18/02/1980#Nam#Hà Giang#0780765432#Tiêu hóa#Bác sĩ chính#18300000
-BS022#Nguyễn Thị V#22/06/1984#Nữ#Lạng Sơn#0770654321#Hô hấp#Phó trưởng khoa#19400000
-BS023#Hoàng Văn W#15/12/1987#Nam#Sơn La#0760543210#Da liễu#Bác sĩ#17700000
-BS024#Trần Thị X#05/08/1990#Nữ#Quảng Trị#0750432109#Nội tiết#Trưởng khoa#20600000
-BS025#Đỗ Văn Y#17/09/1983#Nam#Cà Mau#0740321098#Phẫu thuật tim#Phó trưởng khoa#19800000
-BS026#Lê Thị Z#09/11/1992#Nữ#Vĩnh Long#0730210987#Thần kinh#Bác sĩ chính#18500000
-BS027#Bùi Văn AA#30/01/1986#Nam#Tây Ninh#0720109876#Thận#Trưởng khoa#21400000
-BS028#Ngô Thị BB#13/07/1988#Nữ#An Giang#0710098765#Nhi khoa#Bác sĩ#17600000
-BS029#Vũ Văn CC#21/05/1981#Nam#Ninh Thuận#0700987654#Tiêu hóa#Phó trưởng khoa#19900000
-BS030#Lê Thị DD#11/04/1991#Nữ#Bình Thuận#0690876543#Ngoại khoa#Bác sĩ chính#18100000
-BS031#Nguyễn Văn EE#28/06/1985#Nam#Đồng Nai#0680765432#Phẫu thuật tổng quát#Trưởng khoa#20800000
-BS032#Trần Thị FF#19/02/1989#Nữ#Bình Định#0670654321#Mắt#Phó trưởng khoa#19200000
-BS033#Hoàng Văn GG#25/10/1984#Nam#Hậu Giang#0660543210#Huyết học#Bác sĩ chính#18600000
-BS034#Nguyễn Thị HH#14/12/1986#Nữ#Phú Yên#0650432109#Nhi khoa#Bác sĩ#17800000
-BS035#Phạm Văn II#07/03/1990#Nam#Kiên Giang#0640321098#Ung bướu#Phó trưởng khoa#20000000
-BS036#Trần Văn JJ#12/08/1982#Nam#Bạc Liêu#0630210987#Phổi#Trưởng khoa#20700000
-BS037#Ngô Thị KK#20/11/1993#Nữ#Kon Tum#0620109876#Thần kinh#Bác sĩ chính#18300000

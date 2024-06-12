@@ -11,7 +11,7 @@ import java.util.Date;
  * @author Us
  */
 public class BacSi {
-    
+
     private String maBacSi;
     private String hoTen;
     private Date ngaySinh;
@@ -22,10 +22,6 @@ public class BacSi {
     private String chucVu;
     private double luongThang;
 
-    public BacSi() {
-    }
-
-    
     // Constructor đầy đủ
     public BacSi(String maBacSi, String hoTen, Date ngaySinh, String gioiTinh, String queQuan, String soDienThoai, String chuyenMon, String chucVu, double luongThang) {
         this.maBacSi = maBacSi;
@@ -39,6 +35,10 @@ public class BacSi {
         this.luongThang = luongThang;
     }
 
+    public BacSi() {
+    }
+
+    
     // Getters và setters cho tất cả các thuộc tính
     public String getMaBacSi() {
         return maBacSi;
@@ -112,9 +112,4 @@ public class BacSi {
         this.luongThang = luongThang;
     }
 
-    @Override
-    public String toString() {
-        return "BacSi{" + "maBacSi=" + maBacSi + ", hoTen=" + hoTen + ", ngaySinh=" + ngaySinh + ", gioiTinh=" + gioiTinh + ", queQuan=" + queQuan + ", soDienThoai=" + soDienThoai + ", chuyenMon=" + chuyenMon + ", chucVu=" + chucVu + ", luongThang=" + luongThang + '}';
-    }
-    
 }
